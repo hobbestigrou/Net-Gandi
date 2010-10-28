@@ -8,6 +8,10 @@ extends 'Net::Gandi';
 
 Net::Gandi::Hosting::Iface - Interface to manage Iface. 
 
+=head1 DESCRIPTION
+
+A iface represent a network interface.
+
 =cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
@@ -20,13 +24,33 @@ Available params are:
 
 =over 
 
-=item id 
-=item state 
-=item type
-=item vm_id
-=item items_per_page
-=item page
-=item sort_by
+=item *
+
+id
+
+=item *
+
+state 
+
+=item *
+
+type
+
+=item * 
+
+vm_id
+
+=item * 
+
+items_per_page
+
+=item *
+
+page
+
+=item * 
+
+sort_by
 
 =back
 
@@ -47,10 +71,21 @@ Available params are:
 
 =over 
 
-=item id 
-=item state 
-=item type
-=item vm_id
+=item * 
+
+id 
+
+=item * 
+
+state 
+
+=item * 
+
+type
+
+=item *
+
+vm_id
 
 =back
 
@@ -89,7 +124,7 @@ sub iface_create {
 
 =head1 iface_update
 
-Updates network interface’s attributes.
+Updates network interface attributes.
 
 =cut
 
@@ -99,7 +134,7 @@ sub iface_update {
     return $self->call_rpc( "iface.update", $self->id, $params );
 }
 
-=head1
+=head1 iface_delete
 
 Deletes a network interface.
 
@@ -110,10 +145,6 @@ sub iface_delete {
 
     return $self->call_rpc('iface.delete', $self->id);
 }
-
-=head1 DESCRIPTION
-
-A iface represent a network interface.
 
 =head1 AUTHOR
 

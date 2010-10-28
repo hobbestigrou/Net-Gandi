@@ -8,6 +8,10 @@ extends 'Net::Gandi';
 
 Net::Gandi::Hosting::VM - Interface to manage VM. 
 
+=head1 DESCRIPTION
+
+A VM (Virtual Machine) describes a server’s resources and state.
+
 =cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
@@ -20,16 +24,45 @@ Available params are:
 
 =over 
 
-=item id 
-=item memory
-=item state 
-=item shares 
-=item hostname
-=item cores
-=item datacenter_id
-=item items_per_page
-=item page
-=item sort_by
+=item *
+
+id 
+
+=item * 
+
+memory
+
+=item * 
+
+state
+
+=item * 
+
+shares
+
+=item * 
+
+hostname
+
+=item * 
+
+cores
+
+=item * 
+
+datacenter_id
+
+=item * 
+
+items_per_page
+
+=item * 
+
+page
+
+=item * 
+
+sort_by
 
 =back
 
@@ -50,13 +83,33 @@ Available params are:
 
 =over 
 
-=item id 
-=item memory
-=item state 
-=item shares 
-=item hostname
-=item cores
-=item datacenter_id
+=item * 
+
+id 
+
+=item * 
+
+memory
+
+=item * 
+
+state
+
+=item * 
+
+shares
+
+=item * 
+
+hostname
+
+=item * 
+
+cores
+
+=item * 
+
+datacenter_id
 
 =back
 
@@ -197,7 +250,7 @@ sub vm_stop {
     return $self->call_rpc('vm.stop', $self->id);
 }
 
-=head1 vn_reboot
+=head1 vm_reboot
 
 Reboots a VM and returns the corresponding operation
 Parameter: None
@@ -223,10 +276,6 @@ sub vm_delete {
 
     return $self->call_rpc('vm.delete', $self->id);
 }
-
-=head1 DESCRIPTION
-
-A VM (Virtual Machine) describes a server’s resources and state.
 
 =head1 AUTHOR
 

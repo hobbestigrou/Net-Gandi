@@ -54,7 +54,7 @@ sub call_rpc {
 
 =head1 DESCRIPTION
 
-This module provides a Perl interface to the Gandi API. See l<http:://rpc.gandi.net>
+This module provides a Perl interface to the Gandi API. See L<http:://rpc.gandi.net>
 for a full description of the Gandi API. For the moment, the API is in beta. You can
 ask for a key via email. The interface can be changed.
 
@@ -98,8 +98,8 @@ See http://dev.perl.org/licenses/ for more information.
 =head1 SEE ALSO
 
 L<Moose>
-l<XMLRPC::Lite>
-l<http:://rpc.gandi.net>
+L<XMLRPC::Lite>
+L<http:://rpc.gandi.net>
 
 =cut
 

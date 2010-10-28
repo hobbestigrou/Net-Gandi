@@ -8,6 +8,10 @@ extends 'Net::Gandi';
 
 Net::Gandi::Hosting::Image - Interface to manage image. 
 
+=head1 DESCRIPTION
+
+A image describes a system image with an operating system. It is associated with a disk that stores the filesystem. Methods below are read-only they do not modify any data or state.
+
 =cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
@@ -20,12 +24,29 @@ Params:
 
 =over 
 
-=item label: Take a string, this a name of the operation system
-=item datacenter_id: Take a integer, this a location of the resource
-=item disk_id: Take a integer, this a id of the disk to use as a source
-=item visibility: Take a string ( public | private | alpha ), who can access this image
-=item os_arch: Take a string ( x86-32 | x86-64 ), CPU architecture this image is made for
-=item author_id: Take a integer, who is the author of this image
+=item * 
+
+label: Take a string, this a name of the operation system
+
+=item * 
+
+datacenter_id: Take a integer, this a location of the resource
+
+=item * 
+
+disk_id: Take a integer, this a id of the disk to use as a source
+
+=item * 
+
+visibility: Take a string ( public | private | alpha ), who can access this image
+
+=item * 
+
+os_arch: Take a string ( x86-32 | x86-64 ), CPU architecture this image is made for
+
+=item * 
+
+author_id: Take a integer, who is the author of this image
 
 =back
 
@@ -53,10 +74,6 @@ sub image_info {
 }
 
 1;
-
-=head1 DESCRIPTION
-
-A image describes a system image with an operating system. It is associated with a disk that stores the filesystem. Methods below are read-only they do not modify any data or state.
 
 =head1 AUTHOR
 

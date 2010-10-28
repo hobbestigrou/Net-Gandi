@@ -1,6 +1,6 @@
 Net-Gandi
 
-This module provides a Perl interface to the Gandi API. See l<http:://rpc.gandi.net>
+This module provides a Perl interface to the Gandi API. See http:://rpc.gandi.net
 for a full description of the Gandi API. For the moment, the API is in beta. You can
 ask for a key via email beta-hosting@gandi.net. The interface can be changed.
 
