@@ -1,0 +1,12 @@
+Changes
+MANIFEST
+Makefile.PL
+README
+lib/Net/Gandi.pm 
+lib/Net/Gandi/Hosting/VM.pm
+lib/Net/Gandi/Hosting/Disk.pm
+lib/Net/Gandi/Hosting/Image.pm
+lib/Net/Gandi/Hosting/Iface.pm
+lib/Net/Gandi/Hosting/IP.pm
+t/00-load.t
+TODO
