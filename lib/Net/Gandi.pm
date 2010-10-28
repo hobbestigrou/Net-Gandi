@@ -74,7 +74,7 @@ Feel free to fork the repo and submit pull requests
 =head1 ACKNOWLEDGEMENTS
 
 Franck Cuny and Michael Scherer for fix typo.
-Gandi for API 
+Gandi for this API 
 
 =head1 BUGS
 
