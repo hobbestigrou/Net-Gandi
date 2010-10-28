@@ -16,7 +16,7 @@ SUPPORT AND DOCUMENTATION
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc Dancer::Plugin::FormValidator
+    perldoc Net::Gandi
 
 LICENSE AND COPYRIGHT
 
