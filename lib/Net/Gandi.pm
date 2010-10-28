@@ -3,6 +3,7 @@ package Net::Gandi;
 use Moose;
 use XMLRPC::Lite;
 use Carp;
+use utf8;
 use Net::Gandi::Hosting::VM;
 use Net::Gandi::Hosting::Disk;
 use Net::Gandi::Hosting::Image;
