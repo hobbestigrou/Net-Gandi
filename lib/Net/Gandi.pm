@@ -67,7 +67,7 @@ Natal Ngétal, C<< <hobbestig@cpan.org> >>
 
 This module is developed on Github at:
 
-l<http://github.com/hobbestigrou/Net-Gandi> 
+L<http://github.com/hobbestigrou/Net-Gandi> 
 
 Feel free to fork the repo and submit pull requests
 
