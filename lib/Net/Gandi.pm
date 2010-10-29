@@ -16,7 +16,7 @@ Net::Gandi - A perl interface to the Gandi XMLRPC API
 
 =cut
 
-our $VERSION = '0.1';
+our $VERSION = '0.3';
 
 has 'apikey' => ( is       => 'rw', 
                   required => 1,
