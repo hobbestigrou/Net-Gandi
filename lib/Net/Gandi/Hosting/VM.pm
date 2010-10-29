@@ -192,39 +192,6 @@ sub update {
     return $self->call_rpc('vm.update', $self->id, $params);
 }
 
-=head1 disk_attach
-
-Attach a disk to a VM. 
-The account associated with apikey MUST own both VM and disk.
-A disk can only be attached to one VM.
-
-=cut
-
-sub disk_attach {
-    my ( $self, $disk_id, $params ) = @_;
-
-    if ( $params ) {
-        return $self->call_rpc('vm.disk_attach', $self->id, $disk_id, $params);
-    }
-    else {
-        return $self->call_rpc('vm.disk_attach', $self->id, $disk_id);
-    }
-}
-
-=head1 disk_detach
-
-Detach a disk from a VM. The disk MUST not be mounted on the VM. If the disk position is 0, the VM MUST be halted to detach the disk
-
-Params: disk_id
-
-=cut
-
-sub disk_detach {
-    my ( $self, $disk_id ) = @_;
-
-    return $self->call_rpc('vm.disk_attach', $self->id, $disk_id);
-}
-
 =head1 start
 
 Starts a VM and return the corresponding operation
