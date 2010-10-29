@@ -17,7 +17,7 @@ A VM (Virtual Machine) describes a server’s resources and state.
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 vm_list 
+=head1 list 
 
 Returns the list of VMs associated with apikey, matched by filters, if specified.
 
@@ -69,14 +69,14 @@ sort_by
 
 =cut
 
-sub vm_list {
+sub list {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc( "vm.list", $params );
 }
 
-=head1 vm_count
+=head1 count
 
 Returns the number of VMs associated with apikey, matched by filters, if specified.
 
@@ -116,14 +116,14 @@ datacenter_id
 
 =cut
 
-sub vm_count {
+sub count {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc('vm.count', $params);
 }
 
-=head1 vm_info
+=head1 info
 
 Return a mapping of the VM attributes.
 
@@ -132,23 +132,23 @@ Parameter: None
     use Net::Gandi;
 
     my $vm   = Net::Gandi::Hosting::VM->new( apikey => 'myapikey', id => 42 );
-    my $info = $vm->vm_info;
+    my $info = $vm->info;
 
 =cut 
 
-sub vm_info {
+sub info {
     my ( $self ) = @_;
 
     return $self->call_rpc( 'vm.info', $self->id );
 }
 
-=head1 vm_create
+=head1 create
 
 Creates a VM and returns the corresponding operations.
 
 =cut
 
-sub vm_create {
+sub create {
     my ( $self, $params ) = @_;
 
     foreach my $param ( 'hostname', 'password' ) {
@@ -158,41 +158,41 @@ sub vm_create {
     return $self->call_rpc( "vm.create", $params );
 }
 
-=head1 vm_create_from 
+=head1 create_from 
 
 Creates a Disk, and then, a VM, and returns the corresponding operations.
 It combines the API method disk.create, and vm.create.
 This is a convenient method to do the disk.create and vm.create in a single API call.
-Three operations are created and returned (in this order): disk_create, iface_create, vm_create
+Three operations are created and returned (in this order): disk_create, iface_create, create
 
 =cut
 
-sub vm_create_from {
-    my ( $self, $vm_params, $disk_params, $src_disk_id ) = @_;
+sub create_from {
+    my ( $self, $params, $disk_params, $src_disk_id ) = @_;
 
     foreach my $param ( 'hostname', 'password' ) {
-        $vm_params->{$param} = XMLRPC::Data
+        $params->{$param} = XMLRPC::Data
             ->type('string')
-            ->value($vm_params->{$param});
+            ->value($params->{$param});
     }
 
-    return $self->call_rpc( "vm.create", $vm_params, $disk_params, $src_disk_id );
+    return $self->call_rpc( "vm.create_from", $params, $disk_params, $src_disk_id );
 }
 
-=head1 vm_update
+=head1 update
 
 Updates a VM.
 
 =cut
 
-sub vm_update {
+sub update {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc('vm.update', $self->id, $params);
 }
 
-=head1 vm_disk_attach
+=head1 disk_attach
 
 Attach a disk to a VM. 
 The account associated with apikey MUST own both VM and disk.
@@ -200,7 +200,7 @@ A disk can only be attached to one VM.
 
 =cut
 
-sub vm_disk_attach {
+sub disk_attach {
     my ( $self, $disk_id, $params ) = @_;
 
     if ( $params ) {
@@ -211,7 +211,7 @@ sub vm_disk_attach {
     }
 }
 
-=head1 vm_disk_detach
+=head1 disk_detach
 
 Detach a disk from a VM. The disk MUST not be mounted on the VM. If the disk position is 0, the VM MUST be halted to detach the disk
 
@@ -219,46 +219,46 @@ Params: disk_id
 
 =cut
 
-sub vm_disk_detach {
+sub disk_detach {
     my ( $self, $disk_id ) = @_;
 
     return $self->call_rpc('vm.disk_attach', $self->id, $disk_id);
 }
 
-=head1 vm_start
+=head1 start
 
 Starts a VM and return the corresponding operation
 Parameter: None
 
 =cut
 
-sub vm_start {
+sub start {
     my ( $self ) = @_;
 
     return $self->call_rpc('vm.start', $self->id);
 }
 
-=head1 vm_stop
+=head1 stop
 
 Stops a VM and returns the corresponding operation.
 Parameter: None
 
 =cut
 
-sub vm_stop {
+sub stop {
     my ( $self ) = @_;
 
     return $self->call_rpc('vm.stop', $self->id);
 }
 
-=head1 vm_reboot
+=head1 reboot
 
 Reboots a VM and returns the corresponding operation
 Parameter: None
 
 =cut
 
-sub vm_reboot {
+sub reboot {
     my ( $self ) = @_;
 
     return $self->call_rpc('vm.reboot', $self->id);
@@ -272,7 +272,7 @@ Parameter: None
 
 =cut
 
-sub vm_delete {
+sub delete {
     my ( $self ) = @_;
 
     return $self->call_rpc('vm.delete', $self->id);

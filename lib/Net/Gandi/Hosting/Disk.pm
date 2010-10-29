@@ -17,7 +17,7 @@ A disk represents a virtual storage device you can attached to a VM. It then beh
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 disk_list 
+=head1 list 
 
 List the disks associated with apikey that match the filter.
 
@@ -69,14 +69,14 @@ sort_by
 
 =cut
 
-sub disk_list {
+sub list {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc( "disk.list", $params );
 }
 
-=head1 disk_count
+=head1 count
 
 Returns the number of VMs associated with apikey, matched by filters, if specified.
 
@@ -116,14 +116,14 @@ datacenter_id
 
 =cut
 
-sub disk_count {
+sub count {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc('disk.count', $params);
 }
 
-=head1 disk_info
+=head1 info
 
 Return a mapping of the disk attributes.
 
@@ -131,13 +131,13 @@ Parameter: None
 
 =cut 
 
-sub disk_info {
+sub info {
     my ( $self ) = @_;
 
     return $self->call_rpc( 'disk.info', $self->id );
 }
 
-=head1 disk_get_options
+=head1 get_options
 
 Returns available kernels and kernel options for this disk.
 
@@ -145,55 +145,55 @@ Parameter: None
 
 =cut 
 
-sub disk_get_options {
+sub get_options {
     my ( $self ) = @_;
 
     return $self->call_rpc( 'disk.get_options', $self->id );
 }
 
-=head1 disk_create
+=head1 create
 
 Create a disk.
 
 =cut
 
-sub disk_create {
+sub create {
     my ( $self, $params ) = @_;
 
     return $self->call_rpc( "disk.create", $params );
 }
 
-=head1 disk_create_from
+=head1 create_from
 
 Create a disk with the same data as the disk identified by src_disk_id.
 
 =cut
 
-sub disk_create_from {
+sub create_from {
     my ( $self, $params, $src_disk_id ) = @_;
 
     return $self->call_rpc( "disk.create", $params, $src_disk_id );
 }
 
-=head1 disk_update
+=head1 update
 
 Update the disk to match the expected attributes.
 
 =cut
 
-sub disk_update {
+sub update {
     my ( $self, $params ) = @_;
 
     return $self->call_rpc('disk.update', $self->id, $params);
 }
 
-=head1 disk_delete
+=head1 delete
 
 Delete a disk. Warning, erase data. Free the quota used by the disk size.
 
 =cut
 
-sub disk_delete {
+sub delete {
     my ( $self ) = @_;
 
     return $self->call_rpc('disk.delete', $self->id);

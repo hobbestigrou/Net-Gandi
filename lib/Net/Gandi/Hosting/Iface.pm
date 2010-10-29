@@ -17,7 +17,7 @@ A iface represent a network interface.
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 iface_list 
+=head1 list 
 
 List network interfaces associated to apikey that match the filter.
 
@@ -57,14 +57,14 @@ sort_by
 
 =cut
 
-sub iface_list {
+sub list {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc( "iface.list", $params );
 }
 
-=head1 iface_count
+=head1 count
 
 Count network interfaces associated to apikey that match the filter
 
@@ -92,56 +92,56 @@ vm_id
 
 =cut
 
-sub iface_count {
+sub count {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc('iface.count', $params);
 }
 
-=head1 iface_info
+=head1 info
 
 Returns informations about the network interface
 
 =cut 
 
-sub iface_info {
+sub info {
     my ( $self ) = @_;
 
     return $self->call_rpc( 'iface.info', $self->id );
 }
 
-=head1 iface_create
+=head1 create
 
 Create a iface.
 
 =cut
 
-sub iface_create {
+sub create {
     my ( $self, $params ) = @_;
 
     return $self->call_rpc( "iface.create", $params );
 }
 
-=head1 iface_update
+=head1 update
 
 Updates network interface attributes.
 
 =cut
 
-sub iface_update {
+sub update {
     my ( $self, $params ) = @_;
 
     return $self->call_rpc( "iface.update", $self->id, $params );
 }
 
-=head1 iface_delete
+=head1 delete
 
 Deletes a network interface.
 
 =cut
 
-sub iface_delete {
+sub delete {
     my ( $self ) = @_;
 
     return $self->call_rpc('iface.delete', $self->id);

@@ -17,7 +17,7 @@ A image describes a system image with an operating system. It is associated with
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 image_list 
+=head1 list 
 
 Perform a image.list
 
@@ -53,14 +53,14 @@ author_id: Take a integer, who is the author of this image
 
 =cut
 
-sub image_list {
+sub list {
     my ( $self, $params ) = @_;
 
     $params ||= {};
     return $self->call_rpc( 'image.list', $params );
 }
 
-=head1 image_info
+=head1 info
 
 Perform a image.info
 
@@ -68,7 +68,7 @@ Params: None
 
 =cut 
 
-sub image_info {
+sub info {
     my ( $self ) = @_;
 
     return $self->call_rpc( 'image.info', $self->id );
