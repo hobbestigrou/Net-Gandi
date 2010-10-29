@@ -234,7 +234,6 @@ sub detach {
     return $self->call_rpc('vm.disk_detach', $vm_id, $self->id);
 }
 
-
 =head1 AUTHOR
 
 Natal Ngétal, C<< <hobbestig@cpan.org> >>

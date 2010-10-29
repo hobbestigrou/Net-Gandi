@@ -1,5 +1,8 @@
 Revision history for Net::Gandi
 
+0.5 29/10/10
+    Remove methods prefix in class Disk for disk_attach and detach, add also disk_attach     and disk_detach in a VM, and fix typo.
+
 0.4 29/10/10
     Move disk_attach and disk_detach in class Disk.
 
