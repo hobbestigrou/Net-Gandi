@@ -199,7 +199,7 @@ sub delete {
     return $self->call_rpc('disk.delete', $self->id);
 }
 
-=head1 disk_attach
+=head1 attach
 
 Attach a disk to a VM. 
 The account associated with apikey MUST own both VM and disk.
@@ -209,7 +209,7 @@ Params: vm_id
 
 =cut
 
-sub disk_attach {
+sub attach {
     my ( $self, $vm_id, $params ) = @_;
 
     if ( $params ) {
@@ -220,7 +220,7 @@ sub disk_attach {
     }
 }
 
-=head1 disk_detach
+=head1 detach
 
 Detach a disk from a VM. The disk MUST not be mounted on the VM. If the disk position is 0, the VM MUST be halted to detach the disk
 
@@ -228,10 +228,10 @@ Params: vm_id
 
 =cut
 
-sub disk_detach {
+sub detach {
     my ( $self, $vm_id ) = @_;
 
-    return $self->call_rpc('vm.disk_attach', $vm_id, $self->id);
+    return $self->call_rpc('vm.disk_detach', $vm_id, $self->id);
 }
 
 
