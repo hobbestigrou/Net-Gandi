@@ -4,11 +4,13 @@ use Moose;
 use XMLRPC::Lite;
 use Carp;
 use utf8;
+use Net::Gandi::Hosting::Datacenter;
 use Net::Gandi::Hosting::VM;
 use Net::Gandi::Hosting::Disk;
 use Net::Gandi::Hosting::Image;
 use Net::Gandi::Hosting::Iface;
 use Net::Gandi::Hosting::IP;
+use Net::Gandi::Hosting::Operation
 
 =head1 NAME 
 
