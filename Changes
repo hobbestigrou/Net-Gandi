@@ -1,5 +1,8 @@
 Revision history for Net::Gandi
 
+0.6 02/11/10
+    Fix indent and encoding pod, add class Datacenter and Operation.
+
 0.5 29/10/10
     Remove methods prefix in class Disk for disk_attach and detach, add also disk_attach     and disk_detach in a VM, and fix typo.
 
