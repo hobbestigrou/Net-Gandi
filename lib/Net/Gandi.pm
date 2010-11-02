@@ -30,19 +30,19 @@ sub call_rpc {
     my $proxy = XMLRPC::Lite->proxy($url);
     my $api_response;
 
-   eval {
-       $api_response = $proxy->call($method, $self->apikey, @args);
-   };
+    eval {
+        $api_response = $proxy->call($method, $self->apikey, @args);
+    };
 
-  if ( !$api_response ) {
-      croak $@;
-  }
+    if ( !$api_response ) {
+        croak $@;
+    }
 
- if ( $api_response->faultstring() ) {
-     croak $api_response->faultstring();
- }
+    if ( $api_response->faultstring() ) {
+        croak $api_response->faultstring();
+    }
 
- return $api_response->result();
+    return $api_response->result();
 }
 
 =head1 SYNOPSIS
