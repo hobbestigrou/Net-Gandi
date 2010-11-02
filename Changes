@@ -1,5 +1,8 @@
 Revision history for Net::Gandi
 
+0.7 02/11/10
+    I forgot update MANIFEST file.
+
 0.6 02/11/10
     Fix indent and encoding pod, add class Datacenter and Operation.
 
