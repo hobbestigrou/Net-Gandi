@@ -7,6 +7,8 @@ extends 'Net::Gandi';
 
 =head1 NAME
 
+=encoding utf-8
+
 Net::Gandi::Hosting::Iface - Interface to manage Iface. 
 
 =head1 DESCRIPTION

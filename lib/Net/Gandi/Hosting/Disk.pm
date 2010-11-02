@@ -7,6 +7,8 @@ extends 'Net::Gandi';
 
 =head1 NAME
 
+=encoding utf-8
+
 Net::Gandi::Hosting::Disk - Interface to manage Disk. 
 
 =head1 DESCRIPTION

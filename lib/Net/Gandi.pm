@@ -14,6 +14,8 @@ use Net::Gandi::Hosting::Operation
 
 =head1 NAME 
 
+=encoding utf-8
+
 Net::Gandi - A perl interface to the Gandi XMLRPC API
 
 =cut

@@ -5,8 +5,9 @@ use utf8;
 
 extends 'Net::Gandi';
 
-
 =head1 NAME
+
+=encoding utf-8
 
 Net::Gandi::Hosting::IP - Interface to manage IP. 
 
