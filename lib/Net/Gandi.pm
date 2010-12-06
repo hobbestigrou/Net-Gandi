@@ -10,7 +10,7 @@ use Net::Gandi::Hosting::Disk;
 use Net::Gandi::Hosting::Image;
 use Net::Gandi::Hosting::Iface;
 use Net::Gandi::Hosting::IP;
-use Net::Gandi::Hosting::Operation
+use Net::Gandi::Hosting::Operation;
 
 =head1 NAME 
 
