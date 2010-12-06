@@ -11,6 +11,7 @@ WriteMakefile(
         'Test::More'   => 0,
         'Moose'        => 0,
         'XMLRPC::Lite' => 0,
+        'Class::Date'  => 0,
         'Carp'         => 0,
     },
 );
