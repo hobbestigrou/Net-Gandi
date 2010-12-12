@@ -53,25 +53,24 @@ sub call_rpc {
 sub _date_object {
     my ( $object ) = @_;
 
-   if ( ref($object) eq 'ARRAY' ) {
-       foreach my $obj (@{$object}) {
-           while ( my ($key, $value) = each %{$obj} ) {
-               if ( $key =~ m/date_/ ) {
-                   $obj->{$key} = Class::Date->new($value);
-               }
-           }
-       }
-   } 
-   else {
-       while ( my ($key, $value) = each %{$object} ) {
-           if ( $key =~ m/date_/ ) {
-               $object->{$key} = Class::Date->new($value);
-           }
-       }
-   }
-  
-  return $object;
-        
+    if ( ref($object) eq 'ARRAY' ) {
+        foreach my $obj (@{$object}) {
+            while ( my ($key, $value) = each %{$obj} ) {
+                if ( $key =~ m/date_/ ) {
+                    $obj->{$key} = Class::Date->new($value);
+                }
+            }
+        }
+    } 
+    else {
+        while ( my ($key, $value) = each %{$object} ) {
+            if ( $key =~ m/date_/ ) {
+                $object->{$key} = Class::Date->new($value);
+            }
+        }
+    }
+
+    return $object;
 }
 
 =head1 SYNOPSIS
