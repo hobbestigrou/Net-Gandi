@@ -1,5 +1,9 @@
 Revision history for Net::Gandi
 
+0.9 26/02/11
+    Fix link in documenation.
+    Add a new object attribute, api_url and date_object.
+
 0.8 06/12/10
     Convert dates as string to dates as objects.
 
