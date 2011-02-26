@@ -33,6 +33,11 @@ has 'apiurl' => ( is      => 'rw',
                   isa     => 'Str'
 );
 
+has 'date_object' => ( is      => 'rw',
+                       default => 0,
+                       isa     => 'Bool',
+);
+
 sub call_rpc {
     my ( $self, $method, @args ) = @_;
     
@@ -52,7 +57,12 @@ sub call_rpc {
         croak $api_response->faultstring();
     }
 
-    return _date_object($api_response->result());
+    if ( $self->date_object ) {
+        return _date_object($api_response->result());
+    }
+    else {
+        return $api_response->result();
+    }
 }
 
 sub _date_object {
