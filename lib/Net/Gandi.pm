@@ -28,10 +28,15 @@ has 'apikey' => ( is       => 'rw',
                   isa      => 'Str'
 );
 
+has 'apiurl' => ( is      => 'rw',
+                  default => 'https://rpc.gandi.net/xmlrpc/2.0/',
+                  isa     => 'Str'
+);
+
 sub call_rpc {
     my ( $self, $method, @args ) = @_;
     
-    my $url   = 'https://rpc.gandi.net/xmlrpc/2.0/';
+    my $url   = $self->apiurl;
     my $proxy = XMLRPC::Lite->proxy($url);
     my $api_response;
 
