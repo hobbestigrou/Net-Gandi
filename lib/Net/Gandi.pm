@@ -13,7 +13,7 @@ use Net::Gandi::Hosting::Iface;
 use Net::Gandi::Hosting::IP;
 use Net::Gandi::Hosting::Operation;
 
-=head1 NAME 
+=head1 NAME
 
 =encoding utf-8
 
@@ -23,14 +23,14 @@ Net::Gandi - A perl interface to the Gandi XMLRPC API
 
 our $VERSION = '0.8';
 
-has 'apikey' => ( is       => 'rw', 
+has 'apikey' => ( is       => 'rw',
                   required => 1,
                   isa      => 'Str'
 );
 
 sub call_rpc {
     my ( $self, $method, @args ) = @_;
-    
+
     my $url   = 'https://rpc.gandi.net/xmlrpc/2.0/';
     my $proxy = XMLRPC::Lite->proxy($url);
     my $api_response;
@@ -61,7 +61,7 @@ sub _date_object {
                }
            }
        }
-   } 
+   }
    else {
        while ( my ($key, $value) = each %{$object} ) {
            if ( $key =~ m/date_/ ) {
@@ -69,9 +69,9 @@ sub _date_object {
            }
        }
    }
-  
+
   return $object;
-        
+
 }
 
 =head1 SYNOPSIS
@@ -96,14 +96,14 @@ Natal Ngétal, C<< <hobbestig@cpan.org> >>
 
 This module is developed on Github at:
 
-L<http://github.com/hobbestigrou/Net-Gandi> 
+L<http://github.com/hobbestigrou/Net-Gandi>
 
 Feel free to fork the repo and submit pull requests
 
 =head1 ACKNOWLEDGEMENTS
 
 Franck Cuny and Michael Scherer for fix typo.
-Gandi for this API 
+Gandi for this API
 
 =head1 BUGS
 
@@ -112,7 +112,7 @@ Please report any bugs or feature requests in github.
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
-  
+
     perldoc Net::Gandi
 
 =head1 LICENSE AND COPYRIGHT
