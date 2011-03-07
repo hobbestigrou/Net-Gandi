@@ -74,6 +74,18 @@ sub _date_object {
 
 }
 
+=head1 cast_value
+
+Force XMLRPC data types, to use before calls when using booleans for example.
+
+=cut
+
+sub cast_value {
+    my ( $self, $type, $value ) = @_;
+
+    return XMLRPC::Data->type($type)->value($value);
+}
+
 =head1 SYNOPSIS
 
     use Net::Gandi;
