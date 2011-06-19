@@ -12,5 +12,6 @@ WriteMakefile(
         'Moose'        => 0,
         'XMLRPC::Lite' => 0,
         'Class::Date'  => 0,
+        'URI'          => 0,
     },
 );
