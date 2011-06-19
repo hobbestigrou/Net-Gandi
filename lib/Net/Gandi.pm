@@ -5,6 +5,7 @@ use XMLRPC::Lite;
 use Carp;
 use Class::Date qw( :errors date localdate gmdate now -DateParse );
 use utf8;
+use Net::Gandi::Types;
 use Net::Gandi::Hosting::Datacenter;
 use Net::Gandi::Hosting::VM;
 use Net::Gandi::Hosting::Disk;
@@ -29,8 +30,9 @@ has 'apikey' => ( is       => 'rw',
 );
 
 has 'apiurl' => ( is      => 'rw',
+                  isa     => 'Net::Gandi::Types::URI',
+                  coerce  => 1,
                   default => 'https://rpc.gandi.net/xmlrpc/2.0/',
-                  isa     => 'Str'
 );
 
 has 'date_object' => ( is      => 'rw',
