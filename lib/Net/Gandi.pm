@@ -22,7 +22,7 @@ Net::Gandi - A perl interface to the Gandi XMLRPC API
 
 =cut
 
-our $VERSION = '0.9';
+our $VERSION = '0.10';
 
 has 'apikey' => ( is       => 'rw', 
                   required => 1,

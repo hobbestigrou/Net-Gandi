@@ -1,5 +1,8 @@
 Revision history for Net::Gandi
 
+0.10 20/06/11
+     Add a new class types.
+
 0.9 26/02/11
     Fix link in documenation.
     Add a new object attribute, api_url and date_object.
@@ -20,10 +23,10 @@ Revision history for Net::Gandi
     Move disk_attach and disk_detach in class Disk.
 
 0.3 29/10/10
-    Remove methods prefix. 
+    Remove methods prefix.
 
 0.2 28/10/10
     Fix perldoc, and few typo.
 
-0.1 28/10/10 
+0.1 28/10/10
     Initial version developed.
