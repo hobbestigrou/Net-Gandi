@@ -14,7 +14,7 @@ use Net::Gandi::Hosting::Iface;
 use Net::Gandi::Hosting::IP;
 use Net::Gandi::Hosting::Operation;
 
-=head1 NAME 
+=head1 NAME
 
 =encoding utf-8
 
@@ -24,7 +24,7 @@ Net::Gandi - A perl interface to the Gandi XMLRPC API
 
 our $VERSION = '0.10';
 
-has 'apikey' => ( is       => 'rw', 
+has 'apikey' => ( is       => 'rw',
                   required => 1,
                   isa      => 'Str'
 );
@@ -42,7 +42,6 @@ has 'date_object' => ( is      => 'rw',
 
 sub call_rpc {
     my ( $self, $method, @args ) = @_;
-    
     my $url   = $self->apiurl;
     my $proxy = XMLRPC::Lite->proxy($url);
     my $api_response;
@@ -70,24 +69,37 @@ sub call_rpc {
 sub _date_object {
     my ( $object ) = @_;
 
-    if ( ref($object) eq 'ARRAY' ) {
-        foreach my $obj (@{$object}) {
-            while ( my ($key, $value) = each %{$obj} ) {
-                if ( $key =~ m/date_/ ) {
-                    $obj->{$key} = Class::Date->new($value);
-                }
-            }
-        }
-    } 
-    else {
-        while ( my ($key, $value) = each %{$object} ) {
-            if ( $key =~ m/date_/ ) {
-                $object->{$key} = Class::Date->new($value);
-            }
-        }
-    }
+   if ( ref($object) eq 'ARRAY' ) {
+       foreach my $obj (@{$object}) {
+           while ( my ($key, $value) = each %{$obj} ) {
+               if ( $key =~ m/date_/ ) {
+                   $obj->{$key} = Class::Date->new($value);
+               }
+           }
+       }
+   }
+   else {
+       while ( my ($key, $value) = each %{$object} ) {
+           if ( $key =~ m/date_/ ) {
+               $object->{$key} = Class::Date->new($value);
+           }
+       }
+   }
 
-    return $object;
+  return $object;
+
+}
+
+=head1 cast_value
+
+Force XMLRPC data types, to use before calls when using booleans for example.
+
+=cut
+
+sub cast_value {
+    my ( $self, $type, $value ) = @_;
+
+    return XMLRPC::Data->type($type)->value($value);
 }
 
 =head1 SYNOPSIS
@@ -112,14 +124,14 @@ Natal Ngétal, C<< <hobbestig@cpan.org> >>
 
 This module is developed on Github at:
 
-L<http://github.com/hobbestigrou/Net-Gandi> 
+L<http://github.com/hobbestigrou/Net-Gandi>
 
 Feel free to fork the repo and submit pull requests
 
 =head1 ACKNOWLEDGEMENTS
 
 Franck Cuny and Michael Scherer for fix typo.
-Gandi for this API 
+Gandi for this API
 
 =head1 BUGS
 
@@ -128,7 +140,7 @@ Please report any bugs or feature requests in github.
 =head1 SUPPORT
 
 You can find documentation for this module with the perldoc command.
-  
+
     perldoc Net::Gandi
 
 =head1 LICENSE AND COPYRIGHT
