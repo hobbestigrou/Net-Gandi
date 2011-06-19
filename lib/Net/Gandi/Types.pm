@@ -5,6 +5,8 @@ use URI;
 
 =head1 NAME
 
+=encoding utf-8
+
 Net::Gandi::Types - Type definition for L<Net::Gandi>
 
 =head1 SYNOPSIS
