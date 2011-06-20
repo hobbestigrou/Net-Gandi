@@ -2,7 +2,8 @@ Changes
 MANIFEST
 Makefile.PL
 README
-lib/Net/Gandi.pm 
+lib/Net/Gandi.pm
+lib/Net/Gandi/Types.pm
 lib/Net/Gandi/Hosting/Datacenter.pm
 lib/Net/Gandi/Hosting/VM.pm
 lib/Net/Gandi/Hosting/Disk.pm
