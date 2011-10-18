@@ -35,6 +35,12 @@ has 'apiurl' => ( is      => 'rw',
                   default => 'https://rpc.gandi.net/xmlrpc/2.0/',
 );
 
+has 'useragent' => (
+    is      => 'rw',
+    isa     => 'Str',
+    default => "Net::Gandi/$VERSION",
+);
+
 has 'err' => (
     is      => 'rw',
     isa     => 'Int',
@@ -56,6 +62,7 @@ sub call_rpc {
     my $url          = $self->apiurl;
     my $proxy        = XMLRPC::Lite->proxy($url);
     my $api_response = $proxy->call($method, $self->apikey, @args);
+    $proxy->transport->agent($self->useragent);
 
     if ( $api_response->faultstring() ) {
         $self->err($api_response->faultcode());
