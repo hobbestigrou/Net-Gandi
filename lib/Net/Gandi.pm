@@ -49,15 +49,17 @@ Boolean to transform the string date in a perl date object. Use Class::Date.
 
 our $VERSION = '0.10';
 
-has 'apikey' => ( is       => 'rw',
-                  required => 1,
-                  isa      => 'Str'
+has 'apikey' => (
+    is       => 'rw',
+    required => 1,
+    isa      => 'Str'
 );
 
-has 'apiurl' => ( is      => 'rw',
-                  isa     => 'Net::Gandi::Types::URI',
-                  coerce  => 1,
-                  default => 'https://rpc.gandi.net/xmlrpc/2.0/',
+has 'apiurl' => (
+    is      => 'rw',
+    isa     => 'Net::Gandi::Types::URI',
+    coerce  => 1,
+    default => 'https://rpc.gandi.net/xmlrpc/2.0/',
 );
 
 has 'useragent' => (
@@ -76,9 +78,10 @@ has 'errstr' => (
     isa     => 'Str',
 );
 
-has 'date_object' => ( is      => 'rw',
-                       default => 0,
-                       isa     => 'Bool',
+has 'date_object' => (
+    is      => 'rw',
+    default => 0,
+    isa     => 'Bool',
 );
 
 sub call_rpc {
