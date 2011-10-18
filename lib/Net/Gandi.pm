@@ -35,6 +35,16 @@ has 'apiurl' => ( is      => 'rw',
                   default => 'https://rpc.gandi.net/xmlrpc/2.0/',
 );
 
+has 'err' => (
+    is      => 'rw',
+    isa     => 'Int',
+);
+
+has 'errstr' => (
+    is      => 'rw',
+    isa     => 'Str',
+);
+
 has 'date_object' => ( is      => 'rw',
                        default => 0,
                        isa     => 'Bool',
