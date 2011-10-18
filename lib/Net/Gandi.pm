@@ -20,6 +20,31 @@ use Net::Gandi::Hosting::Operation;
 
 Net::Gandi - A perl interface to the Gandi XMLRPC API
 
+=head1 new
+Creates a new instance of Net::Gandi
+
+Parameters:
+
+=over
+
+=item * apikey
+
+B<(Required)> Api key of your account.
+
+=item * apiurl
+
+Specified a url. The default value is current api version
+
+=item * useragent
+
+Specified a useragent. The default value is Net::Gandi with the version.
+
+=item * date_object
+
+Boolean to transform the string date in a perl date object. Use Class::Date.
+
+=back
+
 =cut
 
 our $VERSION = '0.10';
@@ -101,6 +126,22 @@ sub _date_object {
   return $object;
 
 }
+
+=head1 err
+
+Returns the numeric code of last error.
+
+    my $err_code = $gandi->err;
+
+=cut
+
+=head1 errstr
+
+Returns the human readable text for last error.
+
+    my $err_description = gandi->errstr
+
+=cut
 
 =head1 cast_value
 
