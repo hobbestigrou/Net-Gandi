@@ -47,7 +47,7 @@ Boolean to transform the string date in a perl date object. Use Class::Date.
 
 =cut
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 has 'apikey' => (
     is       => 'rw',
