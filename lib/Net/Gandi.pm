@@ -52,17 +52,10 @@ has 'date_object' => ( is      => 'rw',
 
 sub call_rpc {
     my ( $self, $method, @args ) = @_;
-    my $url   = $self->apiurl;
-    my $proxy = XMLRPC::Lite->proxy($url);
-    my $api_response;
 
-    eval {
-        $api_response = $proxy->call($method, $self->apikey, @args);
-    };
-
-    if ( !$api_response ) {
-        croak $@;
-    }
+    my $url          = $self->apiurl;
+    my $proxy        = XMLRPC::Lite->proxy($url);
+    my $api_response = $proxy->call($method, $self->apikey, @args);
 
     if ( $api_response->faultstring() ) {
         $self->err($api_response->faultcode());
