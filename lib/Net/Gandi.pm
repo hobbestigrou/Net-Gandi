@@ -65,7 +65,9 @@ sub call_rpc {
     }
 
     if ( $api_response->faultstring() ) {
-        croak $api_response->faultstring();
+        $self->err($api_response->faultcode());
+        $self->errstr($api_response->faultstring());
+        return undef;
     }
 
     if ( $self->date_object ) {
