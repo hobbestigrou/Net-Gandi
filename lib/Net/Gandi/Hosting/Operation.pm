@@ -1,7 +1,6 @@
 package Net::Gandi::Hosting::Operation;
 
 use Moose;
-use utf8;
 
 extends 'Net::Gandi';
 

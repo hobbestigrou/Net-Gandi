@@ -1,7 +1,6 @@
 package Net::Gandi::Hosting::Datacenter;
 
 use Moose;
-use utf8;
 
 extends 'Net::Gandi';
 

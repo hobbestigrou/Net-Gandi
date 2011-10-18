@@ -4,7 +4,7 @@ use Moose;
 use XMLRPC::Lite;
 use Carp;
 use Class::Date qw( :errors date localdate gmdate now -DateParse );
-use utf8;
+
 use Net::Gandi::Types;
 use Net::Gandi::Hosting::Datacenter;
 use Net::Gandi::Hosting::VM;
