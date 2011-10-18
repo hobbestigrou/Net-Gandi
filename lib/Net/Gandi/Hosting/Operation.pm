@@ -1,6 +1,7 @@
 package Net::Gandi::Hosting::Operation;
 
 use Moose;
+use Carp;
 
 extends 'Net::Gandi';
 
@@ -28,6 +29,7 @@ Returns informations about the operation
 sub info {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc( 'operation.info', $self->id );
 }
 

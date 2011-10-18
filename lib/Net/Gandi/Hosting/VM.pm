@@ -1,6 +1,7 @@
 package Net::Gandi::Hosting::VM;
 
 use Moose;
+use Carp;
 
 extends 'Net::Gandi';
 
@@ -140,6 +141,7 @@ Parameter: None
 sub info {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc( 'vm.info', $self->id );
 }
 
@@ -189,6 +191,8 @@ Updates a VM.
 sub update {
     my ( $self, $params ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
+
     $params ||= {};
     return $self->call_rpc('vm.update', $self->id, $params);
 }
@@ -205,6 +209,8 @@ Params: disk_id
 
 sub disk_attach {
     my ( $self, $disk_id, $params ) = @_;
+
+    carp 'Required parameter id is not defined' if ( ! $self->id );
 
     if ( $params ) {
         return $self->call_rpc('vm.disk_attach', $self->id, $disk_id, $params);
@@ -225,6 +231,9 @@ Params: disk_id
 sub disk_detach {
     my ( $self, $disk_id ) = @_;
 
+
+    carp 'Required parameter id is not defined' if ( ! $self->id );
+
     return $self->call_rpc('vm.disk_detach', $self->id, $disk_id);
 }
 
@@ -239,6 +248,7 @@ Parameter: None
 sub start {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc('vm.start', $self->id);
 }
 
@@ -252,6 +262,7 @@ Parameter: None
 sub stop {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc('vm.stop', $self->id);
 }
 
@@ -265,6 +276,7 @@ Parameter: None
 sub reboot {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc('vm.reboot', $self->id);
 }
 
@@ -279,6 +291,7 @@ Parameter: None
 sub delete {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc('vm.delete', $self->id);
 }
 

@@ -1,6 +1,7 @@
 package Net::Gandi::Hosting::Iface;
 
 use Moose;
+use Carp;
 
 extends 'Net::Gandi';
 
@@ -109,6 +110,7 @@ Returns informations about the network interface
 sub info {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc( 'iface.info', $self->id );
 }
 
@@ -133,6 +135,7 @@ Updates network interface attributes.
 sub update {
     my ( $self, $params ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc( "iface.update", $self->id, $params );
 }
 
@@ -145,6 +148,7 @@ Deletes a network interface.
 sub delete {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc('iface.delete', $self->id);
 }
 

@@ -1,6 +1,7 @@
 package Net::Gandi::Hosting::Image;
 
 use Moose;
+use Carp;
 
 extends 'Net::Gandi';
 
@@ -72,6 +73,7 @@ Params: None
 sub info {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc( 'image.info', $self->id );
 }
 

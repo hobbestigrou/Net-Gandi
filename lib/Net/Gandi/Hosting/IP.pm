@@ -1,6 +1,7 @@
 package Net::Gandi::Hosting::IP;
 
 use Moose;
+use Carp;
 
 extends 'Net::Gandi';
 
@@ -51,6 +52,7 @@ Parameter: None
 sub info {
     my ( $self ) = @_;
 
+    carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->call_rpc( 'ip.info', $self->id );
 }
 
@@ -62,6 +64,8 @@ Updates a IP’s attributes
 
 sub update {
     my ( $self, $params ) = @_;
+
+    carp 'Required parameter id is not defined' if ( ! $self->id );
 
     $params ||= {};
     return $self->call_rpc('ip.update', $self->id, $params);
