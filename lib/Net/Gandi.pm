@@ -118,9 +118,9 @@ sub cast_value {
 
     use Net::Gandi;
 
-    my $gandi = Net::Gandi::Hosting::VM->new(apikey => 'myapikey', id => 42);
+    my $vm = Net::Gandi::Hosting::VM->new(apikey => 'myapikey', id => 42);
 
-    my $vm_info = $gandi->vm_info;
+    my $vm_info = $vm->info;
 
 =head1 DESCRIPTION
 
