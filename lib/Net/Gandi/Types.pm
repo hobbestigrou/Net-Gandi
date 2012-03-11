@@ -1,34 +1,9 @@
 package Net::Gandi::Types;
 
-use Moose::Util::TypeConstraints;
-use URI;
+use MooseX::Types::Moose qw/Str ArrayRef HashRef/;
+use MooseX::Types -declare => [qw(Client)];
 
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Types - Type definition for L<Net::Gandi>
-
-=head1 SYNOPSIS
-    use Net::Gandi::Types
-
-=head1 DESCRIPTION
-
-Moose type definitions for L<Net::Gandi>
-
-=cut
-
-=head1 Net::Gandi::Types::URI
-
-Subtype of L<URI>. Can be coerced from a string representing the URL.
-
-=cut
-
-subtype 'Net::Gandi::Types::URI' => as 'URI';
-
-coerce 'Net::Gandi::Types::URI' => from 'Str' => via {
-    URI->new($_);
-};
+class_type Client, { class => 'Net::Gandi::Client' };
 
 1;
 
