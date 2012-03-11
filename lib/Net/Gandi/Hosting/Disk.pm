@@ -1,128 +1,30 @@
 package Net::Gandi::Hosting::Disk;
 
 use Moose;
+use Net::Gandi::Types Client => { -as => 'Client_T' };
+
 use Carp;
-
-extends 'Net::Gandi';
-
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Hosting::Disk - Interface to manage Disk. 
-
-=head1 DESCRIPTION
-
-A disk represents a virtual storage device you can attached to a VM. It then behaves like a block device where you can read and write data.
-
-=cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 list 
-
-List the disks associated with apikey that match the filter.
-
-Available params are: 
-
-=over 
-
-=item * 
-
-id 
-
-=item * 
-
-state 
-
-=item * 
-
-size
-
-=item * 
-
-name
-
-=item * 
-
-type
-
-=item * 
-
-vm_id
-
-=item * 
-
-datacenter_id
-
-=item * 
-
-items_per_page
-
-=item * 
-
-page
-
-=item * 
-
-sort_by
-
-=back
-
-=cut
+has client => (
+    is       => 'rw',
+    isa      => Client_T,
+    required => 1,
+);
 
 sub list {
     my ( $self, $params ) = @_;
 
     $params ||= {};
-    return $self->call_rpc( "disk.list", $params );
+    return $self->client->call_rpc( "disk.list", $params );
 }
-
-=head1 count
-
-Returns the number of VMs associated with apikey, matched by filters, if specified.
-
-Available params are: 
-
-=over 
-
-=item * 
-
-id
-
-=item * 
-
-state
-
-=item * 
-
-size
-
-=item * 
-
-name
-
-=item * 
-
-type
-
-=item * 
-
-vm_id
-
-=item * 
-
-datacenter_id
-
-=back
-
-=cut
 
 sub count {
     my ( $self, $params ) = @_;
 
     $params ||= {};
-    return $self->call_rpc('disk.count', $params);
+    return $self->client->call_rpc('disk.count', $params);
 }
 
 =head1 info
@@ -138,7 +40,7 @@ sub info {
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->call_rpc( 'disk.info', $self->id );
+    return $self->client->call_rpc( 'disk.info', $self->id );
 }
 
 =head1 get_options
@@ -153,7 +55,7 @@ sub get_options {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( 'disk.get_options', $self->id );
+    return $self->client->call_rpc( 'disk.get_options', $self->id );
 }
 
 =head1 create
@@ -165,7 +67,7 @@ Create a disk.
 sub create {
     my ( $self, $params ) = @_;
 
-    return $self->call_rpc( "disk.create", $params );
+    return $self->client->call_rpc( "disk.create", $params );
 }
 
 =head1 create_from
@@ -177,7 +79,7 @@ Create a disk with the same data as the disk identified by src_disk_id.
 sub create_from {
     my ( $self, $params, $src_disk_id ) = @_;
 
-    return $self->call_rpc( "disk.create", $params, $src_disk_id );
+    return $self->client->call_rpc( "disk.create", $params, $src_disk_id );
 }
 
 =head1 update
@@ -191,7 +93,7 @@ sub update {
 
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('disk.update', $self->id, $params);
+    return $self->client->call_rpc('disk.update', $self->id, $params);
 }
 
 =head1 delete
@@ -205,7 +107,7 @@ sub delete {
 
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('disk.delete', $self->id);
+    return $self->client->call_rpc('disk.delete', $self->id);
 }
 
 =head1 attach
@@ -225,10 +127,10 @@ sub attach {
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
     if ( $params ) {
-        return $self->call_rpc('vm.disk_attach', $vm_id, $self->id, $params);
+        return $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id, $params);
     }
     else {
-        return $self->call_rpc('vm.disk_attach', $vm_id, $self->id);
+        return $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id);
     }
 }
 
@@ -246,13 +148,7 @@ sub detach {
     carp 'Required parameter id is not defined' if ( ! $vm_id );
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->call_rpc('vm.disk_detach', $vm_id, $self->id);
+    return $self->client->call_rpc('vm.disk_detach', $vm_id, $self->id);
 }
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>
-
-=cut
 
 1;
