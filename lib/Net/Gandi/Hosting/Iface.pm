@@ -1,117 +1,43 @@
 package Net::Gandi::Hosting::Iface;
 
 use Moose;
+use Net::Gandi::Types Client => { -as => 'Client_T' };
+
 use Carp;
-
-extends 'Net::Gandi';
-
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Hosting::Iface - Interface to manage Iface. 
-
-=head1 DESCRIPTION
-
-A iface represent a network interface.
-
-=cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 list 
-
-List network interfaces associated to apikey that match the filter.
-
-Available params are: 
-
-=over 
-
-=item *
-
-id
-
-=item *
-
-state 
-
-=item *
-
-type
-
-=item * 
-
-vm_id
-
-=item * 
-
-items_per_page
-
-=item *
-
-page
-
-=item * 
-
-sort_by
-
-=back
-
-=cut
+has client => (
+    is       => 'rw',
+    isa      => Client_T,
+    required => 1,
+);
 
 sub list {
     my ( $self, $params ) = @_;
 
     $params ||= {};
-    return $self->call_rpc( "iface.list", $params );
+    return $self->client->call_rpc( "iface.list", $params );
 }
-
-=head1 count
-
-Count network interfaces associated to apikey that match the filter
-
-Available params are: 
-
-=over 
-
-=item * 
-
-id 
-
-=item * 
-
-state 
-
-=item * 
-
-type
-
-=item *
-
-vm_id
-
-=back
-
-=cut
 
 sub count {
     my ( $self, $params ) = @_;
 
     $params ||= {};
-    return $self->call_rpc('iface.count', $params);
+    return $self->client->call_rpc('iface.count', $params);
 }
 
 =head1 info
 
 Returns informations about the network interface
 
-=cut 
+=cut
 
 sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( 'iface.info', $self->id );
+    return $self->client->call_rpc( 'iface.info', $self->id );
 }
 
 =head1 create
@@ -123,7 +49,7 @@ Create a iface.
 sub create {
     my ( $self, $params ) = @_;
 
-    return $self->call_rpc( "iface.create", $params );
+    return $self->client->call_rpc( "iface.create", $params );
 }
 
 =head1 update
@@ -136,7 +62,7 @@ sub update {
     my ( $self, $params ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( "iface.update", $self->id, $params );
+    return $self->client->call_rpc( "iface.update", $self->id, $params );
 }
 
 =head1 delete
@@ -149,13 +75,7 @@ sub delete {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('iface.delete', $self->id);
+    return $self->client->call_rpc('iface.delete', $self->id);
 }
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>
-
-=cut
 
 1;

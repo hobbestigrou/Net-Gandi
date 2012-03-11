@@ -1,19 +1,18 @@
 package Net::Gandi::Hosting::IP;
 
 use Moose;
+use Net::Gandi::Types Client => { -as => 'Client_T' };
+
 use Carp;
 
-extends 'Net::Gandi';
-
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Hosting::IP - Interface to manage IP. 
-
-=cut
-
 has 'id' => ( is => 'rw', isa => 'Int' );
+
+has client => (
+    is       => 'rw',
+    isa      => Client_T,
+    required => 1,
+);
+
 
 =head1 list
 
@@ -25,7 +24,7 @@ sub list {
     my ( $self, $params ) = @_;
 
     $params ||= {};
-    return $self->call_rpc( 'ip.list', $params );
+    return $self->client->call_rpc( 'ip.list', $params );
 }
 
 =head1 count 
@@ -38,7 +37,7 @@ sub count {
     my ( $self, $params ) = @_;
 
     $params ||= {};
-    return $self->call_rpc('ip.count', $params);
+    return $self->client->call_rpc('ip.count', $params);
 }
 
 =head1 info
@@ -53,7 +52,7 @@ sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( 'ip.info', $self->id );
+    return $self->client->call_rpc( 'ip.info', $self->id );
 }
 
 =head1 update
@@ -68,26 +67,20 @@ sub update {
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
     $params ||= {};
-    return $self->call_rpc('ip.update', $self->id, $params);
+    return $self->client->call_rpc('ip.update', $self->id, $params);
 }
 
 #sub attach {
 #    my ( $self, $iface_id ) = @_;
 #
-#    return $self->call_rpc('iface.attach', $iface_id, $self->id);
+#    return $self->client->call_rpc('iface.attach', $iface_id, $self->id);
 #}
 
 
 #sub detach {
 #    my ( $self, $iface_id ) = @_;
 #
-#    return $self->call_rpc('iface.detach', $iface_id, $self->id);
+#    return $self->client->call_rpc('iface.detach', $iface_id, $self->id);
 #}
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>
-
-=cut
 
 1;
