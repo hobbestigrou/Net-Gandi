@@ -1,5 +1,7 @@
 package Net::Gandi;
 
+# ABSTRACT: A Perl interface for gandi api
+
 use Moose;
 
 use Net::Gandi::Client;

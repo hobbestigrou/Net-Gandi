@@ -1,5 +1,7 @@
 package Net::Gandi::Hosting::Datacenter;
 
+# ABSTRACT: Datacenter interface
+
 use Moose;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 

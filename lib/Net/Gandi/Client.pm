@@ -1,5 +1,7 @@
 package Net::Gandi::Client;
 
+# ABSTRACT: A Perl interface for gandi api
+
 use Moose;
 use MooseX::Types::URI qw(Uri);
 
