@@ -1,5 +1,7 @@
 package Net::Gandi::Role::XMLRPC;
 
+# ABSTRACT: A Perl interface for gandi api
+
 use XMLRPC::Lite;
 use Data::Dumper;
 use Moose::Role;

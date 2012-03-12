@@ -1,5 +1,7 @@
 package Net::Gandi::Hosting::Iface;
 
+# ABSTRACT: Iface interface
+
 use Moose;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
