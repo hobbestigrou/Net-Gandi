@@ -7,13 +7,27 @@ use Data::Dumper;
 use Moose::Role;
 use MooseX::Types::Moose 'Str';
 
+has '_proxy' => (
+    is       => 'ro',
+    isa      => 'XMLRPC::Lite',
+    builder  => '_build_proxy',
+    init_arg => undef,
+    lazy     => 1,
+);
+
+sub _build_proxy {
+    my ( $self ) = @_;
+
+    my $proxy = XMLRPC::Lite->proxy($self->apiurl);
+    $proxy->transport->agent($self->useragent);
+
+    $proxy;
+}
+
 sub call_rpc {
     my ( $self, $method, @args ) = @_;
 
-    my $url          = $self->apiurl;
-    my $proxy        = XMLRPC::Lite->proxy($url);
-    my $api_response = $proxy->call($method, $self->apikey, @args);
-    $proxy->transport->agent($self->useragent);
+    my $api_response = $self->_proxy->call($method, $self->apikey, @args);
 
     if ( $api_response->faultstring() ) {
         $self->err($api_response->faultcode());
