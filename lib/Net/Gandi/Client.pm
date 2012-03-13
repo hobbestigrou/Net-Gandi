@@ -4,13 +4,14 @@ package Net::Gandi::Client;
 
 use Moose;
 use MooseX::Types::URI qw(Uri);
+use Net::Gandi::Types qw(Apikey);
 
 with 'MooseX::Traits';
 
 has 'apikey' => (
     is       => 'rw',
     required => 0,
-    isa      => 'Str',
+    isa      => Apikey,
 );
 
 has 'apiurl' => (
