@@ -3,6 +3,7 @@ package Net::Gandi::Hosting::VM;
 # ABSTRACT: Vm interface
 
 use Moose;
+use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Carp;
@@ -16,14 +17,20 @@ has client => (
 );
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
     return $self->client->call_rpc( "vm.list", $params );
 }
 
 sub count {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
     return $self->client->call_rpc('vm.count', $params);
@@ -37,7 +44,10 @@ sub info {
 }
 
 sub create {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef' }
+    );
 
     foreach my $param ( 'hostname', 'password' ) {
         $params->{$param} = XMLRPC::Data->type('string')->value($params->{$param});
@@ -59,7 +69,10 @@ sub create_from {
 }
 
 sub update {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef' }
+    );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
@@ -81,7 +94,10 @@ sub disk_attach {
 }
 
 sub disk_detach {
-    my ( $self, $disk_id ) = @_;
+    my ( $self, $disk_id ) = validated_list(
+        \@_,
+        disk_id => { isa => 'Int'}
+    );
 
 
     carp 'Required parameter id is not defined' if ( ! $self->id );

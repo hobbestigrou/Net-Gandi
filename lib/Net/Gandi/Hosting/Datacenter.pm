@@ -3,6 +3,7 @@ package Net::Gandi::Hosting::Datacenter;
 # ABSTRACT: Datacenter interface
 
 use Moose;
+use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 has client => (
@@ -12,14 +13,13 @@ has client => (
 );
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
     return $self->client->call_rpc( 'datacenter.list', $params );
 }
 
 1;
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>
