@@ -3,6 +3,7 @@ package Net::Gandi::Hosting;
 # ABSTRACT: Hosting interface
 
 use Moose;
+use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Net::Gandi::Hosting::Datacenter;
@@ -20,7 +21,10 @@ has client => (
 );
 
 sub vm {
-    my ( $self, $id ) = @_;
+    my ( $self, $id ) = validated_list(
+        \@_,
+        id => { isa => 'Int', optional => 1 }
+    );
 
     my %args  = ( client => $self->client );
     $args{id} = $id if $id;
@@ -31,7 +35,10 @@ sub vm {
 }
 
 sub disk {
-    my ( $self, $id ) = @_;
+    my ( $self, $id ) = validated_list(
+        \@_,
+        id => { isa => 'Int', optional => 1 }
+    );
 
     my %args  = ( client => $self->client );
     $args{id} = $id if $id;
@@ -42,7 +49,10 @@ sub disk {
 }
 
 sub image {
-    my ( $self, $id ) = @_;
+    my ( $self, $id ) = validated_list(
+        \@_,
+        id => { isa => 'Int', optional => 1 }
+    );
 
     my %args  = ( client => $self->client );
     $args{id} = $id if $id;
@@ -53,7 +63,10 @@ sub image {
 }
 
 sub iface {
-    my ( $self, $id ) = @_;
+    my ( $self, $id ) = validated_list(
+        \@_,
+        id => { isa => 'Int', optional => 1 }
+    );
 
     my %args  = ( client => $self->client );
     $args{id} = $id if $id;
@@ -64,7 +77,10 @@ sub iface {
 }
 
 sub ip {
-    my ( $self, $id ) = @_;
+    my ( $self, $id ) = validated_list(
+        \@_,
+        id => { isa => 'Int', optional => 1 }
+    );
 
     my %args  = ( client => $self->client );
     $args{id} = $id if $id;
@@ -75,7 +91,10 @@ sub ip {
 }
 
 sub operation {
-    my ( $self, $id ) = @_;
+    my ( $self, $id ) = validated_list(
+        \@_,
+        id => { isa => 'Int', optional => 1 }
+    );
 
     my %args  = ( client => $self->client );
     $args{id} = $id if $id;
