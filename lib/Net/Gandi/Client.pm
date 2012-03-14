@@ -27,6 +27,12 @@ has 'useragent' => (
     default => "Net::Gandi/1.0",
 );
 
+has 'timeout' => (
+    is      => 'rw',
+    isa     => 'Int',
+    default => 5,
+);
+
 has 'err' => (
     is      => 'rw',
     isa     => 'Int',

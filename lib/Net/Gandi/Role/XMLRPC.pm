@@ -17,7 +17,7 @@ has '_proxy' => (
 sub _build_proxy {
     my ( $self ) = @_;
 
-    my $proxy = XMLRPC::Lite->proxy($self->apiurl);
+    my $proxy = XMLRPC::Lite->proxy($self->apiurl, timeout => $self->timeout );
     $proxy->transport->agent($self->useragent);
 
     $proxy;
