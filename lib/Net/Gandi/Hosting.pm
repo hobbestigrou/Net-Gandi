@@ -22,10 +22,10 @@ has client => (
 sub vm {
     my ( $self, $id ) = @_;
 
-    my $vm = Net::Gandi::Hosting::VM->new(
-        client => $self->client,
-        id     => $id // 0
-    );
+    my %args  = ( client => $self->client );
+    $args{id} = $id if $id;
+
+    my $vm = Net::Gandi::Hosting::VM->new(%args);
 
     return $vm;
 }
@@ -33,10 +33,10 @@ sub vm {
 sub disk {
     my ( $self, $id ) = @_;
 
-    my $disk = Net::Gandi::Hosting::Disk->new(
-        client => $self->client,
-        id     => $id // 0
-    );
+    my %args  = ( client => $self->client );
+    $args{id} = $id if $id;
+
+    my $disk = Net::Gandi::Hosting::Disk->new(%args);
 
     return $disk;
 }
@@ -44,10 +44,10 @@ sub disk {
 sub image {
     my ( $self, $id ) = @_;
 
-    my $image = Net::Gandi::Hosting::Image->new(
-        client => $self->client,
-        id     => $id // 0
-    );
+    my %args  = ( client => $self->client );
+    $args{id} = $id if $id;
+
+    my $image = Net::Gandi::Hosting::Image->new(%args);
 
     return $image;
 }
@@ -55,10 +55,10 @@ sub image {
 sub iface {
     my ( $self, $id ) = @_;
 
-    my $iface = Net::Gandi::Hosting::Iface->new(
-        client => $self->client,
-        id     => $id // 0
-    );
+    my %args  = ( client => $self->client );
+    $args{id} = $id if $id;
+
+    my $iface = Net::Gandi::Hosting::Iface->new(%args);
 
     return $iface;
 }
@@ -66,10 +66,10 @@ sub iface {
 sub ip {
     my ( $self, $id ) = @_;
 
-    my $ip = Net::Gandi::Hosting::IP->new(
-        client => $self->client,
-        id     => $id // 0
-    );
+    my %args  = ( client => $self->client );
+    $args{id} = $id if $id;
+
+    my $ip = Net::Gandi::Hosting::IP->new(%args);
 
     return $ip;
 }
@@ -77,10 +77,10 @@ sub ip {
 sub operation {
     my ( $self, $id ) = @_;
 
-    my $operation = Net::Gandi::Hosting::Operation->new(
-        client => $self->client,
-        id     => $id // 0
-    );
+    my %args  = ( client => $self->client );
+    $args{id} = $id if $id;
+
+    my $operation = Net::Gandi::Hosting::Operation->new(%args);
 
     return $operation;
 }
