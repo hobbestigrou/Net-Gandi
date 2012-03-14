@@ -3,6 +3,7 @@ package Net::Gandi::Hosting::Iface;
 # ABSTRACT: Iface interface
 
 use Moose;
+use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Carp;
@@ -16,14 +17,20 @@ has client => (
 );
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
     return $self->client->call_rpc( "iface.list", $params );
 }
 
 sub count {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
     return $self->client->call_rpc('iface.count', $params);
@@ -49,7 +56,10 @@ Create a iface.
 =cut
 
 sub create {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        iface_spec => { isa => 'HashRef' }
+    );
 
     return $self->client->call_rpc( "iface.create", $params );
 }
@@ -61,7 +71,10 @@ Updates network interface attributes.
 =cut
 
 sub update {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef' }
+    );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->client->call_rpc( "iface.update", $self->id, $params );

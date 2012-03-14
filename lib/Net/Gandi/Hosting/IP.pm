@@ -3,6 +3,7 @@ package Net::Gandi::Hosting::IP;
 # ABSTRACT: Ip interface
 
 use Moose;
+use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Carp;
@@ -23,7 +24,10 @@ List IP associated with apikey that match the filter
 =cut
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
     return $self->client->call_rpc( 'ip.list', $params );
@@ -36,7 +40,10 @@ List IP associated with apikey that match the filter
 =cut
 
 sub count {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
     return $self->client->call_rpc('ip.count', $params);
@@ -48,7 +55,7 @@ Return a mapping of the IP attributes.
 
 Parameter: None
 
-=cut 
+=cut
 
 sub info {
     my ( $self ) = @_;
@@ -64,7 +71,10 @@ Updates a IP’s attributes
 =cut
 
 sub update {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        ip_spec => { isa => 'HashRef' }
+    );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
