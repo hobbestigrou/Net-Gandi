@@ -5,6 +5,9 @@ package Net::Gandi::Role::XMLRPC;
 use XMLRPC::Lite;
 use Moose::Role;
 use MooseX::Types::Moose 'Str';
+use Net::Gandi::Exception;
+
+use Carp;
 
 has '_proxy' => (
     is       => 'ro',
@@ -29,9 +32,11 @@ sub call_rpc {
     my $api_response = $self->_proxy->call($method, $self->apikey, @args);
 
     if ( $api_response->faultstring() ) {
-        $self->err($api_response->faultcode());
-        $self->errstr($api_response->faultstring());
-        return undef;
+        my $exception = Net::Gandi::Exception->new(
+            err    => $api_response->faultcode(),
+            errstr => $api_response->faultstring(),
+        );
+        croak 'Error: ' . $exception->err . ' ' . $exception->errstr;
     }
 
     #if ( $self->date_object ) {
