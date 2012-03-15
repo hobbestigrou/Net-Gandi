@@ -5,6 +5,7 @@ package Net::Gandi::Hosting::IP;
 use Moose;
 use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
+use Net::Gandi::Error qw(_validated_params);
 
 use Carp;
 
@@ -77,6 +78,7 @@ sub update {
     );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
+    _validated_params('vm_create', $params);
 
     $params ||= {};
     return $self->client->call_rpc('ip.update', $self->id, $params);

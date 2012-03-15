@@ -5,6 +5,7 @@ package Net::Gandi::Hosting::Iface;
 use Moose;
 use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
+use Net::Gandi::Error qw(_validated_params);
 
 use Carp;
 
@@ -61,6 +62,8 @@ sub create {
         iface_spec => { isa => 'HashRef' }
     );
 
+    _validated_params('vm_create', $params);
+
     return $self->client->call_rpc( "iface.create", $params );
 }
 
@@ -77,6 +80,8 @@ sub update {
     );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
+    _validated_params('vm_create', $params);
+
     return $self->client->call_rpc( "iface.update", $self->id, $params );
 }
 

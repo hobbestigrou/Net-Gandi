@@ -5,6 +5,7 @@ package Net::Gandi::Hosting::VM;
 use Moose;
 use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
+use Net::Gandi::Error qw(_validated_params);
 
 use Carp;
 
@@ -49,6 +50,8 @@ sub create {
         opts => { isa => 'HashRef' }
     );
 
+    _validated_params('vm_create', $params);
+
     foreach my $param ( 'hostname', 'password' ) {
         $params->{$param} = XMLRPC::Data->type('string')->value($params->{$param});
     }
@@ -58,6 +61,8 @@ sub create {
 
 sub create_from {
     my ( $self, $params, $disk_params, $src_disk_id ) = @_;
+
+    _validated_params('vm_create', $params);
 
     foreach my $param ( 'hostname', 'password' ) {
         $params->{$param} = XMLRPC::Data

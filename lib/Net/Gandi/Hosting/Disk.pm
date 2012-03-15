@@ -5,6 +5,7 @@ package Net::Gandi::Hosting::Disk;
 use Moose;
 use MooseX::Params::Validate;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
+use Net::Gandi::Error qw(_validated_params);
 
 use Carp;
 
@@ -79,6 +80,8 @@ sub create {
         disk_spec => { isa => 'HashRef', optional => 1 }
     );
 
+    _validated_params('vm_create', $params);
+
     return $self->client->call_rpc( "disk.create", $params );
 }
 
@@ -94,6 +97,8 @@ sub create_from {
         disk_spec   => { isa => 'HashRef', optional => 1 },
         src_disk_id => { isa => 'Int'}
     );
+
+    _validated_params('vm_create', $params);
 
     return $self->client->call_rpc( "disk.create", $params, $src_disk_id );
 }
