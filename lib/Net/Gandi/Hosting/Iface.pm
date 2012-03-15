@@ -62,7 +62,7 @@ sub create {
         iface_spec => { isa => 'HashRef' }
     );
 
-    _validated_params('vm_create', $params);
+    _validated_params('iface_create', $params);
 
     return $self->client->call_rpc( "iface.create", $params );
 }
@@ -80,7 +80,7 @@ sub update {
     );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    _validated_params('vm_create', $params);
+    _validated_params('iface_update', $params);
 
     return $self->client->call_rpc( "iface.update", $self->id, $params );
 }

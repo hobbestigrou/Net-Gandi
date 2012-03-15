@@ -78,7 +78,7 @@ sub update {
     );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    _validated_params('vm_create', $params);
+    _validated_params('ip_update', $params);
 
     $params ||= {};
     return $self->client->call_rpc('ip.update', $self->id, $params);

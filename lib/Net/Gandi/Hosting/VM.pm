@@ -62,7 +62,7 @@ sub create {
 sub create_from {
     my ( $self, $params, $disk_params, $src_disk_id ) = @_;
 
-    _validated_params('vm_create', $params);
+    _validated_params('vm_create_from', $params);
 
     foreach my $param ( 'hostname', 'password' ) {
         $params->{$param} = XMLRPC::Data

@@ -80,7 +80,7 @@ sub create {
         disk_spec => { isa => 'HashRef', optional => 1 }
     );
 
-    _validated_params('vm_create', $params);
+    _validated_params('disk_create', $params);
 
     return $self->client->call_rpc( "disk.create", $params );
 }
@@ -98,7 +98,7 @@ sub create_from {
         src_disk_id => { isa => 'Int'}
     );
 
-    _validated_params('vm_create', $params);
+    _validated_params('disk_create_from', $params);
 
     return $self->client->call_rpc( "disk.create", $params, $src_disk_id );
 }
