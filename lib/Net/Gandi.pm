@@ -27,6 +27,17 @@ sub BUILDARGS {
     \%args;
 }
 
+=method
+
+  my $hosting = $client->hosting;
+
+Initialize the hosting environnement, and return an object representing it.
+
+  input: none
+  output: A Net::Gandi::Hosting object
+
+=cut
+
 sub hosting {
     my ( $self ) = @_;
 

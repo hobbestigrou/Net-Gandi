@@ -20,6 +20,17 @@ has client => (
     required => 1,
 );
 
+=method vm
+
+  my $vm = $hosting->vm;
+
+Initialize the virtual machine environnement, and return an object representing it.
+
+  input: id (Int) : optional, id of virtual machine
+  output: A Net::Gandi::Hosting::VM object
+
+=cut
+
 sub vm {
     my ( $self, $id ) = validated_list(
         \@_,
@@ -33,6 +44,17 @@ sub vm {
 
     return $vm;
 }
+
+=method disk
+
+  my $disk = $hosting->disk;
+
+Initialize the disk environnement, and return an object representing it.
+
+  input: id (Int) : optional, id of disk
+  output: A Net::Gandi::Hosting::Disk object
+
+=cut
 
 sub disk {
     my ( $self, $id ) = validated_list(
@@ -48,6 +70,17 @@ sub disk {
     return $disk;
 }
 
+=method image
+
+  my $image = $hosting->image;
+
+Initialize the image environnement, and return an object representing it.
+
+  input: id (Int) : optional, id of image
+  output: A Net::Gandi::Hosting::Image object
+
+=cut
+
 sub image {
     my ( $self, $id ) = validated_list(
         \@_,
@@ -61,6 +94,17 @@ sub image {
 
     return $image;
 }
+
+=method iface
+
+  my $iface = $hosting->iface;
+
+Initialize the iface environnement, and return an object representing it.
+
+  input: id (Int) : optional, id of iface
+  output: A Net::Gandi::Hosting::Iface object
+
+=cut
 
 sub iface {
     my ( $self, $id ) = validated_list(
@@ -76,6 +120,17 @@ sub iface {
     return $iface;
 }
 
+=method ip
+
+  my $ip = $hosting->ip;
+
+Initialize the ip environnement, and return an object representing it.
+
+  input: id (Int) : optional, id of ip
+  output: A Net::Gandi::Hosting::IP object
+
+=cut
+
 sub ip {
     my ( $self, $id ) = validated_list(
         \@_,
@@ -90,6 +145,17 @@ sub ip {
     return $ip;
 }
 
+=method vm
+
+  my $operation = $hosting->operation;
+
+Initialize the operation environnement, and return an object representing it.
+
+  input: id (Int) : optional, id of operation
+  output: A Net::Gandi::Hosting::Operation object
+
+=cut
+
 sub operation {
     my ( $self, $id ) = validated_list(
         \@_,
@@ -103,6 +169,17 @@ sub operation {
 
     return $operation;
 }
+
+=method datacenter
+
+  my $datacenter = $hosting->datacenter;
+
+Initialize the datacenter environnement, and return an object representing it.
+
+  input: none
+  output: A Net::Gandi::Hosting::Datacenter object
+
+=cut
 
 sub datacenter {
     my ( $self ) = @_;
