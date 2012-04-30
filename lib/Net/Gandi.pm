@@ -28,8 +28,9 @@ sub BUILDARGS {
     \%args;
 }
 
-=method
+=method hosting
 
+  my $client  = Net::Gandi->new(apikey => 'api_key');
   my $hosting = $client->hosting;
 
 Initialize the hosting environnement, and return an object representing it.
