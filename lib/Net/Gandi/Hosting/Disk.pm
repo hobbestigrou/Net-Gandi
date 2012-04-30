@@ -130,7 +130,7 @@ sub create_from {
 
     _validated_params('disk_create_from', $params);
 
-    return $self->client->call_rpc( "disk.create", $params, $src_disk_id );
+    return $self->client->call_rpc( "disk.create_from", $params, $src_disk_id );
 }
 
 =method update
