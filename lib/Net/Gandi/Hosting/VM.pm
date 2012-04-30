@@ -77,8 +77,7 @@ sub info {
     return $self->client->call_rpc( 'vm.info', $self->id );
 }
 
-=method create_from
-
+=method create
 Create a new virtual machine with respect to the attributes specified by vm_spec.
 Disk, iface, and vm must be in the same datacenter.
 
