@@ -206,7 +206,7 @@ Params: vm_id
 =cut
 
 sub detach {
-    my ( $self, $disk_id ) = validated_list(
+    my ( $self, $vm_id ) = validated_list(
         \@_,
         vm_id => { isa => 'Int'}
     );
