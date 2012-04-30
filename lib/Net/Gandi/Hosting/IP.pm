@@ -17,10 +17,14 @@ has client => (
     required => 1,
 );
 
+=method list
 
-=head1 list
+  $ip->list;
 
-List IP associated with apikey that match the filter
+List ip addresses.
+
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of ip
 
 =cut
 
@@ -34,9 +38,14 @@ sub list {
     return $self->client->call_rpc( 'ip.list', $params );
 }
 
-=head1 count 
+=method count
 
-List IP associated with apikey that match the filter
+  $ip->count;
+
+Count ip adresses.
+
+  input: opts (HashRef) : Filtering options
+  output: (Int)         : number of ip
 
 =cut
 
@@ -50,11 +59,12 @@ sub count {
     return $self->client->call_rpc('ip.count', $params);
 }
 
-=head1 info
+=method info
 
 Return a mapping of the IP attributes.
 
-Parameter: None
+  input: None
+  output: (HashRef) : Vm informations
 
 =cut
 
@@ -65,9 +75,12 @@ sub info {
     return $self->client->call_rpc( 'ip.info', $self->id );
 }
 
-=head1 update
+=method update
 
 Updates a IP’s attributes
+
+  input: ip_spec (HashRef) : specifications of the ip address to update
+  output: (HashRef)        : Operation ip update
 
 =cut
 
@@ -96,5 +109,6 @@ sub update {
 #
 #    return $self->client->call_rpc('iface.detach', $iface_id, $self->id);
 #}
+
 
 1;
