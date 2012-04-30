@@ -1,6 +1,6 @@
 package Net::Gandi::Hosting::Image;
 
-# ABSTRACT: Image interface
+# ABSTRACT: Disk image interface
 
 use Moose;
 use MooseX::Params::Validate;
@@ -16,6 +16,16 @@ has client => (
     required => 1,
 );
 
+=method list
+
+  $image->list;
+
+List avaible disk image.
+
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of disk image
+
+=cut
 
 sub list {
     my ( $self, $params ) = validated_list(
@@ -27,11 +37,12 @@ sub list {
     return $self->client->call_rpc( 'image.list', $params );
 }
 
-=head1 info
+=method info
 
 Perform a image.info
 
-Params: None
+  input: None
+  output: (HashRef) : Disk image informations
 
 =cut
 
