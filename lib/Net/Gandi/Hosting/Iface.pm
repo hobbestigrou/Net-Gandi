@@ -17,6 +17,17 @@ has client => (
     required => 1,
 );
 
+=method list
+
+  $iface->list;
+
+List network interfaces.
+
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of List network interfaces
+
+=cut
+
 sub list {
     my ( $self, $params ) = validated_list(
         \@_,
@@ -26,6 +37,17 @@ sub list {
     $params ||= {};
     return $self->client->call_rpc( "iface.list", $params );
 }
+
+=method count
+
+  $iface->count;
+
+Count network interfaces..
+
+  input: opts (HashRef) : Filtering options
+  output: (Int)         : number of network interfaces.
+
+=cut
 
 sub count {
     my ( $self, $params ) = validated_list(
@@ -37,9 +59,12 @@ sub count {
     return $self->client->call_rpc('iface.count', $params);
 }
 
-=head1 info
+=method info
 
 Returns informations about the network interface
+
+  input: None
+  output: (HashRef) : Network interfaces informations
 
 =cut
 
@@ -50,9 +75,12 @@ sub info {
     return $self->client->call_rpc( 'iface.info', $self->id );
 }
 
-=head1 create
+=method create
 
 Create a iface.
+
+  input: iface_spec (HashRef)   : specifications of network interfaces to create
+  output: (ArrayRef)         : Operation iface create
 
 =cut
 
@@ -67,16 +95,19 @@ sub create {
     return $self->client->call_rpc( "iface.create", $params );
 }
 
-=head1 update
+=method update
 
 Updates network interface attributes.
+
+  input: iface_spec (HashRef) : specifications of network interfaces to update.
+  output: (HashRef)  : Iface update operation
 
 =cut
 
 sub update {
     my ( $self, $params ) = validated_list(
         \@_,
-        opts => { isa => 'HashRef' }
+        iface_spec => { isa => 'HashRef' }
     );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
@@ -85,7 +116,7 @@ sub update {
     return $self->client->call_rpc( "iface.update", $self->id, $params );
 }
 
-=head1 delete
+=method delete
 
 Deletes a network interface.
 
