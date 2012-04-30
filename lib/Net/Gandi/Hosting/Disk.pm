@@ -17,6 +17,17 @@ has client => (
     required => 1,
 );
 
+=method list
+
+  $disk->list;
+
+List the disk.
+
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of disk
+
+=cut
+
 sub list {
     my ( $self, $params ) = validated_list(
         \@_,
@@ -26,6 +37,17 @@ sub list {
     $params ||= {};
     return $self->client->call_rpc( "disk.list", $params );
 }
+
+=method count
+
+  $disk->count;
+
+Count disk.
+
+  input: opts (HashRef) : Filtering options
+  output: (Int)         : number of disk
+
+=cut
 
 sub count {
     my ( $self, $params ) = validated_list(
@@ -37,11 +59,12 @@ sub count {
     return $self->client->call_rpc('disk.count', $params);
 }
 
-=head1 info
+=method info
 
 Return a mapping of the disk attributes.
 
-Parameter: None
+  input: None
+  output: (HashRef) : Disk informations
 
 =cut
 
@@ -53,7 +76,7 @@ sub info {
     return $self->client->call_rpc( 'disk.info', $self->id );
 }
 
-=head1 get_options
+=method get_options
 
 Returns available kernels and kernel options for this disk.
 
@@ -68,9 +91,12 @@ sub get_options {
     return $self->client->call_rpc( 'disk.get_options', $self->id );
 }
 
-=head1 create
+=method create
 
 Create a disk.
+
+  input: disk_spec (HashRef) : specifications of the Disk to create
+  output: (HashRef)         : Operation disk create
 
 =cut
 
@@ -85,9 +111,13 @@ sub create {
     return $self->client->call_rpc( "disk.create", $params );
 }
 
-=head1 create_from
+=method create_from
 
 Create a disk with the same data as the disk identified by src_disk_id.
+
+  input: disk_spec (HashRef) : specifications of the Disk to create
+         src_disk_id (Int)   : source disk unique identifier
+  output: (HashRef)         : Operation disk create
 
 =cut
 
@@ -103,9 +133,12 @@ sub create_from {
     return $self->client->call_rpc( "disk.create", $params, $src_disk_id );
 }
 
-=head1 update
+=method update
 
 Update the disk to match the expected attributes.
+
+  input: update_spec (HashRef) : specifications of disk to update
+  output: (HashRef)  : Disk update operation
 
 =cut
 
@@ -123,6 +156,9 @@ sub update {
 
 Delete a disk. Warning, erase data. Free the quota used by the disk size.
 
+  input: None
+  output: (HashRef): Operation disk delete
+
 =cut
 
 sub delete {
@@ -133,7 +169,7 @@ sub delete {
     return $self->client->call_rpc('disk.delete', $self->id);
 }
 
-=head1 attach
+=method attach
 
 Attach a disk to a VM.
 The account associated with apikey MUST own both VM and disk.
@@ -147,7 +183,7 @@ sub attach {
     my ( $self, $vm_id, $params ) = validated_list(
         \@_,
         vm_id => { isa => 'Int'},
-        params => { isa => 'HashRef'},
+        opts  => { isa => 'HashRef'},
     );
 
     carp 'Required parameter id is not defined' if ( ! $vm_id );
@@ -161,7 +197,7 @@ sub attach {
     }
 }
 
-=head1 detach
+=method detach
 
 Detach a disk from a VM. The disk MUST not be mounted on the VM. If the disk position is 0, the VM MUST be halted to detach the disk
 
@@ -170,7 +206,10 @@ Params: vm_id
 =cut
 
 sub detach {
-    my ( $self, $vm_id ) = @_;
+    my ( $self, $disk_id ) = validated_list(
+        \@_,
+        vm_id => { isa => 'Int'}
+    );
 
     carp 'Required parameter id is not defined' if ( ! $vm_id );
     carp 'Required parameter id is not defined' if ( ! $self->id );
