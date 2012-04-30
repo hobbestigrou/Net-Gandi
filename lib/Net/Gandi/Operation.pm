@@ -16,6 +16,17 @@ has client => (
     required => 1,
 );
 
+=method info
+
+  $operation->info;
+
+Get operation information.
+
+  input: None
+  output: (HashRef) : Operation information
+
+=cut
+
 sub info {
     my ( $self ) = @_;
 
