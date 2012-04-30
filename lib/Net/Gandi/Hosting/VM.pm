@@ -78,6 +78,7 @@ sub info {
 }
 
 =method create
+
 Create a new virtual machine with respect to the attributes specified by vm_spec.
 Disk, iface, and vm must be in the same datacenter.
 
@@ -138,7 +139,7 @@ sub create_from {
 
 Update a virtual machine with respect to the attributes specified by update_spec.
 
-  input: update_spec (HashRef) : specifications of the virtual machine to update
+  input: vm_spec (HashRef) : specifications of the virtual machine to update
   output: (HashRef)  : Vm update operation
 
 =cut
@@ -146,7 +147,7 @@ Update a virtual machine with respect to the attributes specified by update_spec
 sub update {
     my ( $self, $params ) = validated_list(
         \@_,
-        update_spec => { isa => 'HashRef' }
+        vm_spec => { isa => 'HashRef' }
     );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
