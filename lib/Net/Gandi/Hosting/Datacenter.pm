@@ -12,6 +12,17 @@ has client => (
     required => 1,
 );
 
+=method list
+
+  $datacenter->list;
+
+List available datacenters..
+
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of datacenter
+
+=cut
+
 sub list {
     my ( $self, $params ) = validated_list(
         \@_,
