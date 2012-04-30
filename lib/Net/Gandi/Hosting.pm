@@ -12,7 +12,6 @@ use Net::Gandi::Hosting::Disk;
 use Net::Gandi::Hosting::Image;
 use Net::Gandi::Hosting::Iface;
 use Net::Gandi::Hosting::IP;
-use Net::Gandi::Hosting::Operation;
 
 has client => (
     is       => 'rw',
@@ -143,31 +142,6 @@ sub ip {
     my $ip = Net::Gandi::Hosting::IP->new(%args);
 
     return $ip;
-}
-
-=method vm
-
-  my $operation = $hosting->operation;
-
-Initialize the operation environnement, and return an object representing it.
-
-  input: id (Int) : optional, id of operation
-  output: A Net::Gandi::Hosting::Operation object
-
-=cut
-
-sub operation {
-    my ( $self, $id ) = validated_list(
-        \@_,
-        id => { isa => 'Int', optional => 1 }
-    );
-
-    my %args  = ( client => $self->client );
-    $args{id} = $id if $id;
-
-    my $operation = Net::Gandi::Hosting::Operation->new(%args);
-
-    return $operation;
 }
 
 =method datacenter

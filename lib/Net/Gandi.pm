@@ -8,6 +8,7 @@ use Net::Gandi::Client;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Net::Gandi::Hosting;
+use Net::Gandi::Operation;
 
 has client => (
     is       => 'rw',
@@ -43,6 +44,31 @@ sub hosting {
 
     my $hosting = Net::Gandi::Hosting->new( client => $self->client );
     $hosting;
+}
+
+=method operation
+
+  my $operation = $client->operation;
+
+Initialize the operation environnement, and return an object representing it.
+
+  input: id (Int) : optional, id of operation
+  output: A Net::Gandi::Hosting::Operation object
+
+=cut
+
+sub operation {
+    my ( $self, $id ) = validated_list(
+        \@_,
+        id => { isa => 'Int', optional => 1 }
+    );
+
+    my %args  = ( client => $self->client );
+    $args{id} = $id if $id;
+
+    my $operation = Net::Gandi::Operation->new(%args);
+
+    return $operation;
 }
 
 1;
