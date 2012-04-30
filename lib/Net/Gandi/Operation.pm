@@ -1,4 +1,4 @@
-package Net::Gandi::Hosting::Operation;
+package Net::Gandi::Operation;
 
 # ABSTRACT: Operation interface
 
