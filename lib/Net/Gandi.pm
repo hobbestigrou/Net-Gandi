@@ -110,7 +110,7 @@ Please report any bugs or feature requests in github.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc Dancer::Plugin::Feed
+    perldoc Net::Gandi
 
 =head1 SEE ALSO
 
