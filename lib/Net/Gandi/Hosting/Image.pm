@@ -1,84 +1,62 @@
 package Net::Gandi::Hosting::Image;
 
+# ABSTRACT: Disk image interface
+
 use Moose;
+use MooseX::Params::Validate;
+use Net::Gandi::Types Client => { -as => 'Client_T' };
+
 use Carp;
 
-extends 'Net::Gandi';
+=attr id
 
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Hosting::Image - Interface to manage image. 
-
-=head1 DESCRIPTION
-
-A image describes a system image with an operating system. It is associated with a disk that stores the filesystem. Methods below are read-only they do not modify any data or state.
+rw, Int. Id of the image.
 
 =cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 list 
+has client => (
+    is       => 'rw',
+    isa      => Client_T,
+    required => 1,
+);
 
-Perform a image.list
+=method list
 
-Params: 
+  $image->list;
 
-=over 
+List avaible disk image.
 
-=item * 
-
-label: Take a string, this a name of the operation system
-
-=item * 
-
-datacenter_id: Take a integer, this a location of the resource
-
-=item * 
-
-disk_id: Take a integer, this a id of the disk to use as a source
-
-=item * 
-
-visibility: Take a string ( public | private | alpha ), who can access this image
-
-=item * 
-
-os_arch: Take a string ( x86-32 | x86-64 ), CPU architecture this image is made for
-
-=item * 
-
-author_id: Take a integer, who is the author of this image
-
-=back
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of disk image
 
 =cut
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
-    return $self->call_rpc( 'image.list', $params );
+    return $self->client->call_rpc( 'image.list', $params );
 }
 
-=head1 info
+=method info
 
 Perform a image.info
 
-Params: None
+  input: None
+  output: (HashRef) : Disk image informations
 
-=cut 
+=cut
 
 sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( 'image.info', $self->id );
+    return $self->client->call_rpc( 'image.info', $self->id );
 }
 
 1;
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>

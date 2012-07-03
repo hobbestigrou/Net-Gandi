@@ -1,216 +1,182 @@
 package Net::Gandi::Hosting::Disk;
 
+# ABSTRACT: Disk interface
+
 use Moose;
+use MooseX::Params::Validate;
+use Net::Gandi::Types Client => { -as => 'Client_T' };
+use Net::Gandi::Error qw(_validated_params);
+
 use Carp;
 
-extends 'Net::Gandi';
+=attr id
 
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Hosting::Disk - Interface to manage Disk. 
-
-=head1 DESCRIPTION
-
-A disk represents a virtual storage device you can attached to a VM. It then behaves like a block device where you can read and write data.
+rw, Int. Id of the disk.
 
 =cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 list 
+has client => (
+    is       => 'rw',
+    isa      => Client_T,
+    required => 1,
+);
 
-List the disks associated with apikey that match the filter.
+=method list
 
-Available params are: 
+  $disk->list;
 
-=over 
+List the disk.
 
-=item * 
-
-id 
-
-=item * 
-
-state 
-
-=item * 
-
-size
-
-=item * 
-
-name
-
-=item * 
-
-type
-
-=item * 
-
-vm_id
-
-=item * 
-
-datacenter_id
-
-=item * 
-
-items_per_page
-
-=item * 
-
-page
-
-=item * 
-
-sort_by
-
-=back
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of disk
 
 =cut
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
-    return $self->call_rpc( "disk.list", $params );
+    return $self->client->call_rpc( "disk.list", $params );
 }
 
-=head1 count
+=method count
 
-Returns the number of VMs associated with apikey, matched by filters, if specified.
+  $disk->count;
 
-Available params are: 
+Count disk.
 
-=over 
-
-=item * 
-
-id
-
-=item * 
-
-state
-
-=item * 
-
-size
-
-=item * 
-
-name
-
-=item * 
-
-type
-
-=item * 
-
-vm_id
-
-=item * 
-
-datacenter_id
-
-=back
+  input: opts (HashRef) : Filtering options
+  output: (Int)         : number of disk
 
 =cut
 
 sub count {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
-    return $self->call_rpc('disk.count', $params);
+    return $self->client->call_rpc('disk.count', $params);
 }
 
-=head1 info
+=method info
 
 Return a mapping of the disk attributes.
 
-Parameter: None
+  input: None
+  output: (HashRef) : Disk informations
 
-=cut 
+=cut
 
 sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->call_rpc( 'disk.info', $self->id );
+    return $self->client->call_rpc( 'disk.info', $self->id );
 }
 
-=head1 get_options
+=method get_options
 
 Returns available kernels and kernel options for this disk.
 
 Parameter: None
 
-=cut 
+=cut
 
 sub get_options {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( 'disk.get_options', $self->id );
+    return $self->client->call_rpc( 'disk.get_options', $self->id );
 }
 
-=head1 create
+=method create
 
 Create a disk.
+
+  input: disk_spec (HashRef) : specifications of the Disk to create
+  output: (HashRef)         : Operation disk create
 
 =cut
 
 sub create {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        disk_spec => { isa => 'HashRef', optional => 1 }
+    );
 
-    return $self->call_rpc( "disk.create", $params );
+    _validated_params('disk_create', $params);
+
+    return $self->client->call_rpc( "disk.create", $params );
 }
 
-=head1 create_from
+=method create_from
 
 Create a disk with the same data as the disk identified by src_disk_id.
+
+  input: disk_spec (HashRef) : specifications of the Disk to create
+         src_disk_id (Int)   : source disk unique identifier
+  output: (HashRef)         : Operation disk create
 
 =cut
 
 sub create_from {
-    my ( $self, $params, $src_disk_id ) = @_;
+    my ( $self, $params, $src_disk_id ) = validated_list(
+        \@_,
+        disk_spec   => { isa => 'HashRef', optional => 1 },
+        src_disk_id => { isa => 'Int'}
+    );
 
-    return $self->call_rpc( "disk.create", $params, $src_disk_id );
+    _validated_params('disk_create_from', $params);
+
+    return $self->client->call_rpc( "disk.create_from", $params, $src_disk_id );
 }
 
-=head1 update
+=method update
 
 Update the disk to match the expected attributes.
+
+  input: update_spec (HashRef) : specifications of disk to update
+  output: (HashRef)  : Disk update operation
 
 =cut
 
 sub update {
-    my ( $self, $params ) = @_;
-
+    my ( $self, $params ) = validated_list(
+        \@_,
+        disk_spec => { isa => 'HashRef', optional => 1 }
+    );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('disk.update', $self->id, $params);
+    return $self->client->call_rpc('disk.update', $self->id, $params);
 }
 
 =head1 delete
 
 Delete a disk. Warning, erase data. Free the quota used by the disk size.
 
+  input: None
+  output: (HashRef): Operation disk delete
+
 =cut
 
 sub delete {
     my ( $self ) = @_;
 
-
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('disk.delete', $self->id);
+    return $self->client->call_rpc('disk.delete', $self->id);
 }
 
-=head1 attach
+=method attach
 
-Attach a disk to a VM. 
+Attach a disk to a VM.
 The account associated with apikey MUST own both VM and disk.
 A disk can only be attached to one VM.
 
@@ -219,20 +185,21 @@ Params: vm_id
 =cut
 
 sub attach {
-    my ( $self, $vm_id, $params ) = @_;
+    my ( $self, $vm_id, $params ) = validated_list(
+        \@_,
+        vm_id => { isa => 'Int'},
+        opts  => { isa => 'HashRef'},
+    );
 
     carp 'Required parameter id is not defined' if ( ! $vm_id );
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    if ( $params ) {
-        return $self->call_rpc('vm.disk_attach', $vm_id, $self->id, $params);
-    }
-    else {
-        return $self->call_rpc('vm.disk_attach', $vm_id, $self->id);
-    }
+    return $params
+        ? $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id, $params)
+        : $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id);
 }
 
-=head1 detach
+=method detach
 
 Detach a disk from a VM. The disk MUST not be mounted on the VM. If the disk position is 0, the VM MUST be halted to detach the disk
 
@@ -241,18 +208,15 @@ Params: vm_id
 =cut
 
 sub detach {
-    my ( $self, $vm_id ) = @_;
+    my ( $self, $vm_id ) = validated_list(
+        \@_,
+        vm_id => { isa => 'Int'}
+    );
 
     carp 'Required parameter id is not defined' if ( ! $vm_id );
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->call_rpc('vm.disk_detach', $vm_id, $self->id);
+    return $self->client->call_rpc('vm.disk_detach', $vm_id, $self->id);
 }
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>
-
-=cut
 
 1;

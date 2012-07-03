@@ -1,177 +1,134 @@
 package Net::Gandi::Hosting::VM;
 
+# ABSTRACT: Vm interface
+
 use Moose;
+use MooseX::Params::Validate;
+use Net::Gandi::Types Client => { -as => 'Client_T' };
+use Net::Gandi::Error qw(_validated_params);
+
 use Carp;
 
-extends 'Net::Gandi';
+=attr id
 
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Hosting::VM - Interface to manage VM. 
-
-=head1 DESCRIPTION
-
-A VM (Virtual Machine) describes a server’s resources and state.
+rw, Int. Id of the vm.
 
 =cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 list 
+has client => (
+    is       => 'rw',
+    isa      => Client_T,
+    required => 1,
+);
 
-Returns the list of VMs associated with apikey, matched by filters, if specified.
+=method list
 
-Available params are: 
+  $vm->list;
 
-=over 
+List virtual machines.
 
-=item *
-
-id 
-
-=item * 
-
-memory
-
-=item * 
-
-state
-
-=item * 
-
-shares
-
-=item * 
-
-hostname
-
-=item * 
-
-cores
-
-=item * 
-
-datacenter_id
-
-=item * 
-
-items_per_page
-
-=item * 
-
-page
-
-=item * 
-
-sort_by
-
-=back
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of vm
 
 =cut
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
-    return $self->call_rpc( "vm.list", $params );
+    return $self->client->call_rpc( "vm.list", $params );
 }
 
-=head1 count
+=method count
 
-Returns the number of VMs associated with apikey, matched by filters, if specified.
+  $vm->count;
 
-Available params are: 
+Count virtual machines.
 
-=over 
-
-=item * 
-
-id 
-
-=item * 
-
-memory
-
-=item * 
-
-state
-
-=item * 
-
-shares
-
-=item * 
-
-hostname
-
-=item * 
-
-cores
-
-=item * 
-
-datacenter_id
-
-=back
+  input: opts (HashRef) : Filtering options
+  output: (Int)         : count of vm
 
 =cut
 
 sub count {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
-    return $self->call_rpc('vm.count', $params);
+    return $self->client->call_rpc('vm.count', $params);
 }
 
-=head1 info
+=method info
 
-Return a mapping of the VM attributes.
+  $vm->info
 
-Parameter: None
+Get information about a virtual machine.
 
-    use Net::Gandi;
+  input: None
+  output: (HashRef) : Vm informations
 
-    my $vm   = Net::Gandi::Hosting::VM->new( apikey => 'myapikey', id => 42 );
-    my $info = $vm->info;
-
-=cut 
+=cut
 
 sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( 'vm.info', $self->id );
+    return $self->client->call_rpc( 'vm.info', $self->id );
 }
 
-=head1 create
+=method create
 
-Creates a VM and returns the corresponding operations.
+Create a new virtual machine with respect to the attributes specified by vm_spec.
+Disk, iface, and vm must be in the same datacenter.
+
+  input: vm_spec (HashRef)   : specifications of the VM to create
+  output: (ArrayRef)         : Operation vm create and iface create
 
 =cut
 
 sub create {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        vm_spec => { isa => 'HashRef' }
+    );
+
+    _validated_params('vm_create', $params);
 
     foreach my $param ( 'hostname', 'password' ) {
         $params->{$param} = XMLRPC::Data->type('string')->value($params->{$param});
     }
 
-    return $self->call_rpc( "vm.create", $params );
+    return $self->client->call_rpc( "vm.create", $params );
 }
 
-=head1 create_from 
+=method create_from
 
-Creates a Disk, and then, a VM, and returns the corresponding operations.
-It combines the API method disk.create, and vm.create.
+Create a disk and a virtual machine.
 This is a convenient method to do the disk.create and vm.create in a single API call.
-Three operations are created and returned (in this order): disk_create, iface_create, create
+
+  input: vm_spec (HashRef)   : specifications of the VM to create
+         disk_spec (HashRef) : specifications of the Disk to create
+         src_disk_id (Int)   : source disk unique identifier
+  output: (ArrayRef)         : Operation vm create, disk create, and iface create
 
 =cut
 
 sub create_from {
-    my ( $self, $params, $disk_params, $src_disk_id ) = @_;
+    my ( $self, $params, $disk_spec, $src_disk_id ) = validated_list(
+        \@_,
+        vm_spec     => { isa => 'HashRef' },
+        disk_spec   => { isa => 'HashRef' },
+        src_disk_id => { isa => 'Int' }
+    );
+
+    _validated_params('vm_create_from', $params);
 
     foreach my $param ( 'hostname', 'password' ) {
         $params->{$param} = XMLRPC::Data
@@ -179,66 +136,79 @@ sub create_from {
             ->value($params->{$param});
     }
 
-    return $self->call_rpc( "vm.create_from", $params, $disk_params, $src_disk_id );
+    return $self->client->call_rpc( "vm.create_from", $params, $disk_spec, $src_disk_id );
 }
 
-=head1 update
+=method update
 
-Updates a VM.
+  $vm->update;
+
+Update a virtual machine with respect to the attributes specified by update_spec.
+
+  input: vm_spec (HashRef) : specifications of the virtual machine to update
+  output: (HashRef)  : Vm update operation
 
 =cut
 
 sub update {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        vm_spec => { isa => 'HashRef' }
+    );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
     $params ||= {};
-    return $self->call_rpc('vm.update', $self->id, $params);
+    return $self->client->call_rpc('vm.update', $self->id, $params);
 }
 
-=head1 disk_attach
+=method disk_attach
 
-Attach a disk to a VM. 
-The account associated with apikey MUST own both VM and disk.
-A disk can only be attached to one VM.
-
-Params: disk_id
+Attach a disk to a virtual machine.
+To access the disk data inside the VM, it MUST be attached to the VM.
+When options.position is 0, swaps position with current disk 0.
+A disk can be attached to only one VM.
 
 =cut
 
 sub disk_attach {
-    my ( $self, $disk_id, $params ) = @_;
+    my ( $self, $disk_id, $params ) = validated_list(
+        \@_,
+        disk_id => { isa => 'Int'},
+        opts    => { isa => 'HashRef' }
+    );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
     if ( $params ) {
-        return $self->call_rpc('vm.disk_attach', $self->id, $disk_id, $params);
+        return $self->client->call_rpc('vm.disk_attach', $self->id, $disk_id, $params);
     }
     else {
-        return $self->call_rpc('vm.disk_attach', $self->id, $disk_id);
+        return $self->client->call_rpc('vm.disk_attach', $self->id, $disk_id);
     }
 }
 
-=head1 disk_detach
+=method disk_detach
 
-Detach a disk from a VM. The disk MUST not be mounted on the VM. If the disk position is 0, the VM MUST be halted to detach the disk
-
-Params: disk_id
+Detach a disk from a virtual machine.
+If the disk position is 0, i.e. the system disk, the virtual machine must be halted to detach the disk.
 
 =cut
 
 sub disk_detach {
-    my ( $self, $disk_id ) = @_;
+    my ( $self, $disk_id ) = validated_list(
+        \@_,
+        disk_id => { isa => 'Int'}
+    );
 
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->call_rpc('vm.disk_detach', $self->id, $disk_id);
+    return $self->client->call_rpc('vm.disk_detach', $self->id, $disk_id);
 }
 
 
-=head1 start
+=method start
 
 Starts a VM and return the corresponding operation
 Parameter: None
@@ -249,13 +219,15 @@ sub start {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('vm.start', $self->id);
+    return $self->client->call_rpc('vm.start', $self->id);
 }
 
-=head1 stop
+=method stop
 
 Stops a VM and returns the corresponding operation.
-Parameter: None
+
+  input: None
+  output: (HashRef): Operation vm stop
 
 =cut
 
@@ -263,13 +235,15 @@ sub stop {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('vm.stop', $self->id);
+    return $self->client->call_rpc('vm.stop', $self->id);
 }
 
-=head1 reboot
+=method reboot
 
 Reboots a VM and returns the corresponding operation
-Parameter: None
+
+  input: None
+  output: (HashRef): operation vm reboot
 
 =cut
 
@@ -277,14 +251,16 @@ sub reboot {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('vm.reboot', $self->id);
+    return $self->client->call_rpc('vm.reboot', $self->id);
 }
 
-=head1
+=method delete
 
 Deletes a VM. Deletes the disk attached in position 0, the disk used as system disk.
 Also deletes the first network interface. Detach all extra disks and network interfaces.
-Parameter: None
+
+  input: None
+  output: (HashRef): Operation vm delete
 
 =cut
 
@@ -292,13 +268,7 @@ sub delete {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('vm.delete', $self->id);
+    return $self->client->call_rpc('vm.delete', $self->id);
 }
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>
-
-=cut
 
 1;

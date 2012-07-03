@@ -1,145 +1,128 @@
 package Net::Gandi::Hosting::Iface;
 
+# ABSTRACT: Iface interface
+
 use Moose;
+use MooseX::Params::Validate;
+use Net::Gandi::Types Client => { -as => 'Client_T' };
+use Net::Gandi::Error qw(_validated_params);
+
 use Carp;
 
-extends 'Net::Gandi';
+=attr id
 
-=head1 NAME
-
-=encoding utf-8
-
-Net::Gandi::Hosting::Iface - Interface to manage Iface. 
-
-=head1 DESCRIPTION
-
-A iface represent a network interface.
+rw, Int. Id of the iface.
 
 =cut
 
 has 'id' => ( is => 'rw', isa => 'Int' );
 
-=head1 list 
+has client => (
+    is       => 'rw',
+    isa      => Client_T,
+    required => 1,
+);
 
-List network interfaces associated to apikey that match the filter.
+=method list
 
-Available params are: 
+  $iface->list;
 
-=over 
+List network interfaces.
 
-=item *
-
-id
-
-=item *
-
-state 
-
-=item *
-
-type
-
-=item * 
-
-vm_id
-
-=item * 
-
-items_per_page
-
-=item *
-
-page
-
-=item * 
-
-sort_by
-
-=back
+  input: opts (HashRef) : Filtering options
+  output: (HashRef)     : List of List network interfaces
 
 =cut
 
 sub list {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
-    return $self->call_rpc( "iface.list", $params );
+    return $self->client->call_rpc( "iface.list", $params );
 }
 
-=head1 count
+=method count
 
-Count network interfaces associated to apikey that match the filter
+  $iface->count;
 
-Available params are: 
+Count network interfaces..
 
-=over 
-
-=item * 
-
-id 
-
-=item * 
-
-state 
-
-=item * 
-
-type
-
-=item *
-
-vm_id
-
-=back
+  input: opts (HashRef) : Filtering options
+  output: (Int)         : number of network interfaces.
 
 =cut
 
 sub count {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        opts => { isa => 'HashRef', optional => 1 }
+    );
 
     $params ||= {};
-    return $self->call_rpc('iface.count', $params);
+    return $self->client->call_rpc('iface.count', $params);
 }
 
-=head1 info
+=method info
 
 Returns informations about the network interface
 
-=cut 
+  input: None
+  output: (HashRef) : Network interfaces informations
+
+=cut
 
 sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( 'iface.info', $self->id );
+    return $self->client->call_rpc( 'iface.info', $self->id );
 }
 
-=head1 create
+=method create
 
 Create a iface.
+
+  input: iface_spec (HashRef)   : specifications of network interfaces to create
+  output: (ArrayRef)         : Operation iface create
 
 =cut
 
 sub create {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        iface_spec => { isa => 'HashRef' }
+    );
 
-    return $self->call_rpc( "iface.create", $params );
+    _validated_params('iface_create', $params);
+
+    return $self->client->call_rpc( "iface.create", $params );
 }
 
-=head1 update
+=method update
 
 Updates network interface attributes.
+
+  input: iface_spec (HashRef) : specifications of network interfaces to update.
+  output: (HashRef)  : Iface update operation
 
 =cut
 
 sub update {
-    my ( $self, $params ) = @_;
+    my ( $self, $params ) = validated_list(
+        \@_,
+        iface_spec => { isa => 'HashRef' }
+    );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc( "iface.update", $self->id, $params );
+    _validated_params('iface_update', $params);
+
+    return $self->client->call_rpc( "iface.update", $self->id, $params );
 }
 
-=head1 delete
+=method delete
 
 Deletes a network interface.
 
@@ -149,13 +132,7 @@ sub delete {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->call_rpc('iface.delete', $self->id);
+    return $self->client->call_rpc('iface.delete', $self->id);
 }
-
-=head1 AUTHOR
-
-Natal Ngétal, C<< <hobbestig@cpan.org> >>
-
-=cut
 
 1;
