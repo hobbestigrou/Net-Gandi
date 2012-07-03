@@ -1,5 +1,16 @@
 Revision history for Net::Gandi
 
+{{$NEXT}}
+
+1.121850  2012-07-03 23:29:12 Europe/Paris
+
+    New architecture
+    Add validation
+    Multiple support protocol
+    Use Dist::Zilla
+    Use DateTime::Format::HTTP to transform a string date to DateTime object
+    Move operation class in right place
+
 0.12 19/10/2011
      Clean code, add several attributes useragent err and errstr, change the manner to manage error of api, add validation fix and add documentation.
 
