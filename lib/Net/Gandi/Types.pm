@@ -1,6 +1,6 @@
 package Net::Gandi::Types;
 
-# ABSTRACT: A Perl interface for gandi api
+# ABSTRACT: Net::Gandi types
 
 use MooseX::Types::Moose qw/Str ArrayRef HashRef/;
 use MooseX::Types -declare => [qw(Client Apikey)];
