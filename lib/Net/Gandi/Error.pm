@@ -1,5 +1,7 @@
 package Net::Gandi::Error;
 
+# ABSTRACT: Internal class to manage error.
+
 use strict;
 use warnings;
 

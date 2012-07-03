@@ -8,6 +8,12 @@ use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Carp;
 
+=attr id
+
+rw, Int. Id of the image.
+
+=cut
+
 has 'id' => ( is => 'rw', isa => 'Int' );
 
 has client => (

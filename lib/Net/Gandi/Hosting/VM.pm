@@ -9,6 +9,12 @@ use Net::Gandi::Error qw(_validated_params);
 
 use Carp;
 
+=attr id
+
+rw, Int. Id of the vm.
+
+=cut
+
 has 'id' => ( is => 'rw', isa => 'Int' );
 
 has client => (

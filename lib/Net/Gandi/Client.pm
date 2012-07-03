@@ -10,11 +10,23 @@ use Module::Load;
 
 with 'MooseX::Traits';
 
+=attr apikey
+
+rw, Apikey. Api key of your Gandi account
+
+=cut
+
 has 'apikey' => (
     is       => 'rw',
     required => 0,
     isa      => Apikey,
 );
+
+=attr apikey
+
+rw, Uri. Url of gandi api, default value is current api version
+
+=cut
 
 has 'apiurl' => (
     is      => 'rw',
@@ -23,11 +35,23 @@ has 'apiurl' => (
     default => 'https://rpc.gandi.net/xmlrpc/2.0/',
 );
 
+=attr useragent
+
+rw, Str. Specified a useragent. The default value is Net::Gandi with the version.
+
+=cut
+
 has 'useragent' => (
     is      => 'rw',
     isa     => 'Str',
     default => "Net::Gandi/1.0",
 );
+
+=attr timeout
+
+rw, Int. Timeout in secondes, default to 5.
+
+=cut
 
 has 'timeout' => (
     is      => 'rw',
@@ -35,15 +59,34 @@ has 'timeout' => (
     default => 5,
 );
 
+=attr err
+
+rw, Int. Returns the numeric code of last error.
+
+=cut
+
 has 'err' => (
     is      => 'rw',
     isa     => 'Int',
 );
 
+=attr errstr
+
+rw, Str. Returns the human readable text for last error.
+
+=cut
+
 has 'errstr' => (
     is      => 'rw',
     isa     => 'Str',
 );
+
+=attr date_object
+
+rw, Bool. To transform the string date in a DateTime object. Use
+DateTime::Format::HTTP
+
+=cut
 
 has 'date_object' => (
     is      => 'rw',
