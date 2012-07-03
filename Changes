@@ -2,6 +2,10 @@ Revision history for Net::Gandi
 
 {{$NEXT}}
 
+1.121851  2012-07-04 00:44:50 Europe/Paris
+
+    Fix typo in the documentation, support part.
+
 1.121850  2012-07-03 23:29:12 Europe/Paris
 
     New architecture
