@@ -36,14 +36,9 @@ sub call_rpc {
         croak 'Error: ' . $self->err . ' ' . $self->errstr;
     }
 
-    #if ( $self->date_object ) {
-    #    return _date_object($api_response->result());
-    #}
-    #else {
-    #    return $api_response->result();
-    #}
-
-    return $api_response->result();
+    return $self->date_object
+        ? $self->_date_object($api_response->result())
+        : $api_response->result();
 }
 
 =head1 cast_value

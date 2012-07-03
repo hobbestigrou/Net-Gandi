@@ -6,6 +6,8 @@ use Moose;
 use MooseX::Types::URI qw(Uri);
 use Net::Gandi::Types qw(Apikey);
 
+use Module::Load;
+
 with 'MooseX::Traits';
 
 has 'apikey' => (
@@ -43,35 +45,27 @@ has 'errstr' => (
     isa     => 'Str',
 );
 
-#has 'date_object' => (
-#    is      => 'rw',
-#    default => 0,
-#    isa     => 'Bool',
-#);
+has 'date_object' => (
+    is      => 'rw',
+    default => 0,
+    isa     => 'Bool',
+);
 
-#sub _date_object {
-#    my ( $object ) = @_;
-#
-#    load Class::Date;
-#
-#   if ( ref($object) eq 'ARRAY' ) {
-#       foreach my $obj (@{$object}) {
-#           while ( my ($key, $value) = each %{$obj} ) {
-#               if ( $key =~ m/date_/ ) {
-#                   $obj->{$key} = Class::Date->new($value);
-#               }
-#           }
-#       }
-#   }
-#   else {
-#       while ( my ($key, $value) = each %{$object} ) {
-#           if ( $key =~ m/date_/ ) {
-#               $object->{$key} = Class::Date->new($value);
-#           }
-#       }
-#   }
+sub _date_object {
+    my ( $self, $object ) = @_;
 
-#  return $object;
-#}
+    load 'DateTime::Format::HTTP';
+
+    my $array = ref($object) ne 'ARRAY' ? [ $object ] : $object;
+    my $dt = 'DateTime::Format::HTTP';
+
+    foreach my $obj (@{$array}) {
+        while ( my ($key, $value) = each %{$obj} ) {
+            $obj->{$key} = $dt->parse_datetime($value) if $key =~ m/date_/;
+        }
+    }
+
+    return $object;
+}
 
 1;
