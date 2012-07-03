@@ -9,6 +9,12 @@ use Net::Gandi::Error qw(_validated_params);
 
 use Carp;
 
+=attr id
+
+rw, Int. Id of the disk.
+
+=cut
+
 has 'id' => ( is => 'rw', isa => 'Int' );
 
 has client => (
@@ -164,7 +170,6 @@ Delete a disk. Warning, erase data. Free the quota used by the disk size.
 sub delete {
     my ( $self ) = @_;
 
-
     carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->client->call_rpc('disk.delete', $self->id);
 }
@@ -189,12 +194,9 @@ sub attach {
     carp 'Required parameter id is not defined' if ( ! $vm_id );
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    if ( $params ) {
-        return $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id, $params);
-    }
-    else {
-        return $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id);
-    }
+    return $params
+        ? $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id, $params)
+        : $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id);
 }
 
 =method detach
