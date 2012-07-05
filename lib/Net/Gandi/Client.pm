@@ -99,11 +99,15 @@ sub _date_to_datetime {
 
     load 'DateTime::Format::HTTP';
 
-    my $array = ref($object) ne 'ARRAY' ? [ $object ] : $object;
-    my $dt = 'DateTime::Format::HTTP';
+    my $array        = ref($object) ne 'ARRAY' ? [ $object ] : $object;
+    my $dt           = 'DateTime::Format::HTTP';
+    my @special_keys = ('ips', 'disks', 'ifaces');
 
     foreach my $obj (@{$array}) {
         while ( my ($key, $value) = each %{$obj} ) {
+            if ( $key ~~ @special_keys ) {
+                $self->_date_to_datetime($value);
+            }
             $obj->{$key} = $dt->parse_datetime($value) if $key =~ m/date_/;
         }
     }
