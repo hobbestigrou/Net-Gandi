@@ -81,20 +81,20 @@ has 'errstr' => (
     isa     => 'Str',
 );
 
-=attr date_object
+=attr date_to_datetime
 
 rw, Bool. To transform the string date in a DateTime object. Use
 DateTime::Format::HTTP
 
 =cut
 
-has 'date_object' => (
+has 'date_to_datetime' => (
     is      => 'rw',
     default => 0,
     isa     => 'Bool',
 );
 
-sub _date_object {
+sub _date_to_datetime {
     my ( $self, $object ) = @_;
 
     load 'DateTime::Format::HTTP';

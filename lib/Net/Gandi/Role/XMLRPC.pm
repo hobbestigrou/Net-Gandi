@@ -36,8 +36,8 @@ sub call_rpc {
         croak 'Error: ' . $self->err . ' ' . $self->errstr;
     }
 
-    return $self->date_object
-        ? $self->_date_object($api_response->result())
+    return $self->date_to_datetime
+        ? $self->_date_to_datetime($api_response->result())
         : $api_response->result();
 }
 

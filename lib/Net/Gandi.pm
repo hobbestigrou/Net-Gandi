@@ -81,7 +81,7 @@ sub operation {
 
     use Net::Gandi;
 
-    my $client  = Net::Gandi->new( apikey => 'myapikey', date_object = 1 );
+    my $client  = Net::Gandi->new( apikey => 'myapikey', date_to_datetime => 1 );
     my $hosting = $client->hosting;
     my $vm      = $hosting->vm( id => 42 );
     my $vm_info = $vm->info;
