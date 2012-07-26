@@ -25,7 +25,7 @@ sub _build_proxy {
     $proxy;
 }
 
-sub call_rpc {
+sub api_call {
     my ( $self, $method, @args ) = @_;
 
     my $api_response = $self->_proxy->call($method, $self->apikey, @args);

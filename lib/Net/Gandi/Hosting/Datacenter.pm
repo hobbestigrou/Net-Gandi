@@ -30,7 +30,7 @@ sub list {
     );
 
     $params ||= {};
-    return $self->client->call_rpc( 'datacenter.list', $params );
+    return $self->client->api_call( 'datacenter.list', $params );
 }
 
 1;

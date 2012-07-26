@@ -31,7 +31,7 @@ sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc( 'operation.info', $self->id );
+    return $self->client->api_call( 'operation.info', $self->id );
 }
 
 1;

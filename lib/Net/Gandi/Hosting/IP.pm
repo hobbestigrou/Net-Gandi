@@ -41,7 +41,7 @@ sub list {
     );
 
     $params ||= {};
-    return $self->client->call_rpc( 'ip.list', $params );
+    return $self->client->api_call( 'ip.list', $params );
 }
 
 =method count
@@ -62,7 +62,7 @@ sub count {
     );
 
     $params ||= {};
-    return $self->client->call_rpc('ip.count', $params);
+    return $self->client->api_call('ip.count', $params);
 }
 
 =method info
@@ -78,7 +78,7 @@ sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc( 'ip.info', $self->id );
+    return $self->client->api_call( 'ip.info', $self->id );
 }
 
 =method update
@@ -100,20 +100,20 @@ sub update {
     _validated_params('ip_update', $params);
 
     $params ||= {};
-    return $self->client->call_rpc('ip.update', $self->id, $params);
+    return $self->client->api_call('ip.update', $self->id, $params);
 }
 
 #sub attach {
 #    my ( $self, $iface_id ) = @_;
 #
-#    return $self->client->call_rpc('iface.attach', $iface_id, $self->id);
+#    return $self->client->api_call('iface.attach', $iface_id, $self->id);
 #}
 
 
 #sub detach {
 #    my ( $self, $iface_id ) = @_;
 #
-#    return $self->client->call_rpc('iface.detach', $iface_id, $self->id);
+#    return $self->client->api_call('iface.detach', $iface_id, $self->id);
 #}
 
 

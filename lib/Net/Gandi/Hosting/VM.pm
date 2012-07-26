@@ -41,7 +41,7 @@ sub list {
     );
 
     $params ||= {};
-    return $self->client->call_rpc( "vm.list", $params );
+    return $self->client->api_call( "vm.list", $params );
 }
 
 =method count
@@ -62,7 +62,7 @@ sub count {
     );
 
     $params ||= {};
-    return $self->client->call_rpc('vm.count', $params);
+    return $self->client->api_call('vm.count', $params);
 }
 
 =method info
@@ -80,7 +80,7 @@ sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc( 'vm.info', $self->id );
+    return $self->client->api_call( 'vm.info', $self->id );
 }
 
 =method create
@@ -105,7 +105,7 @@ sub create {
         $params->{$param} = XMLRPC::Data->type('string')->value($params->{$param});
     }
 
-    return $self->client->call_rpc( "vm.create", $params );
+    return $self->client->api_call( "vm.create", $params );
 }
 
 =method create_from
@@ -136,7 +136,7 @@ sub create_from {
             ->value($params->{$param});
     }
 
-    return $self->client->call_rpc( "vm.create_from", $params, $disk_spec, $src_disk_id );
+    return $self->client->api_call( "vm.create_from", $params, $disk_spec, $src_disk_id );
 }
 
 =method update
@@ -159,7 +159,7 @@ sub update {
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
     $params ||= {};
-    return $self->client->call_rpc('vm.update', $self->id, $params);
+    return $self->client->api_call('vm.update', $self->id, $params);
 }
 
 =method disk_attach
@@ -181,10 +181,10 @@ sub disk_attach {
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
     if ( $params ) {
-        return $self->client->call_rpc('vm.disk_attach', $self->id, $disk_id, $params);
+        return $self->client->api_call('vm.disk_attach', $self->id, $disk_id, $params);
     }
     else {
-        return $self->client->call_rpc('vm.disk_attach', $self->id, $disk_id);
+        return $self->client->api_call('vm.disk_attach', $self->id, $disk_id);
     }
 }
 
@@ -204,7 +204,7 @@ sub disk_detach {
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->client->call_rpc('vm.disk_detach', $self->id, $disk_id);
+    return $self->client->api_call('vm.disk_detach', $self->id, $disk_id);
 }
 
 
@@ -219,7 +219,7 @@ sub start {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc('vm.start', $self->id);
+    return $self->client->api_call('vm.start', $self->id);
 }
 
 =method stop
@@ -235,7 +235,7 @@ sub stop {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc('vm.stop', $self->id);
+    return $self->client->api_call('vm.stop', $self->id);
 }
 
 =method reboot
@@ -251,7 +251,7 @@ sub reboot {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc('vm.reboot', $self->id);
+    return $self->client->api_call('vm.reboot', $self->id);
 }
 
 =method delete
@@ -268,7 +268,7 @@ sub delete {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc('vm.delete', $self->id);
+    return $self->client->api_call('vm.delete', $self->id);
 }
 
 1;
