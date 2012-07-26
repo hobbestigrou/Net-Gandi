@@ -4,6 +4,8 @@ package Net::Gandi::Client;
 
 use Moose;
 use MooseX::Types::URI qw(Uri);
+use namespace::autoclean;
+
 use Net::Gandi::Types qw(Apikey);
 
 use Module::Load;
@@ -81,34 +83,41 @@ has 'errstr' => (
     isa     => 'Str',
 );
 
-=attr date_object
+=attr date_to_datetime
 
 rw, Bool. To transform the string date in a DateTime object. Use
 DateTime::Format::HTTP
 
 =cut
 
-has 'date_object' => (
+has 'date_to_datetime' => (
     is      => 'rw',
     default => 0,
     isa     => 'Bool',
 );
 
-sub _date_object {
+sub _date_to_datetime {
     my ( $self, $object ) = @_;
 
     load 'DateTime::Format::HTTP';
 
-    my $array = ref($object) ne 'ARRAY' ? [ $object ] : $object;
-    my $dt = 'DateTime::Format::HTTP';
+    my $array        = ref($object) ne 'ARRAY' ? [ $object ] : $object;
+    my $dt           = 'DateTime::Format::HTTP';
+    my @special_keys = ('ips', 'disks', 'ifaces');
 
     foreach my $obj (@{$array}) {
         while ( my ($key, $value) = each %{$obj} ) {
+            if ( $key ~~ @special_keys ) {
+                $self->_date_to_datetime($value);
+            }
             $obj->{$key} = $dt->parse_datetime($value) if $key =~ m/date_/;
         }
     }
 
     return $object;
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;

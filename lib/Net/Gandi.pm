@@ -3,6 +3,7 @@ package Net::Gandi;
 # ABSTRACT: A Perl interface for gandi api
 
 use Moose;
+use namespace::autoclean;
 
 use Net::Gandi::Client;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
@@ -73,6 +74,9 @@ sub operation {
     return $operation;
 }
 
+no Moose;
+__PACKAGE__->meta->make_immutable;
+
 1;
 
 =encoding UTF-8
@@ -81,7 +85,7 @@ sub operation {
 
     use Net::Gandi;
 
-    my $client  = Net::Gandi->new( apikey => 'myapikey', date_object = 1 );
+    my $client  = Net::Gandi->new( apikey => 'myapikey', date_to_datetime => 1 );
     my $hosting = $client->hosting;
     my $vm      = $hosting->vm( id => 42 );
     my $vm_info = $vm->info;

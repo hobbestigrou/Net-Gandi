@@ -4,8 +4,9 @@ package Net::Gandi::Hosting;
 
 use Moose;
 use MooseX::Params::Validate;
-use Net::Gandi::Types Client => { -as => 'Client_T' };
+use namespace::autoclean;
 
+use Net::Gandi::Types Client => { -as => 'Client_T' };
 use Net::Gandi::Hosting::Datacenter;
 use Net::Gandi::Hosting::VM;
 use Net::Gandi::Hosting::Disk;
@@ -164,5 +165,8 @@ sub datacenter {
 
     return $datacenter;
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;

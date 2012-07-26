@@ -4,6 +4,8 @@ package Net::Gandi::Hosting::Image;
 
 use Moose;
 use MooseX::Params::Validate;
+use namespace::autoclean;
+
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Carp;
@@ -40,7 +42,7 @@ sub list {
     );
 
     $params ||= {};
-    return $self->client->call_rpc( 'image.list', $params );
+    return $self->client->api_call( 'image.list', $params );
 }
 
 =method info
@@ -56,7 +58,10 @@ sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc( 'image.info', $self->id );
+    return $self->client->api_call( 'image.info', $self->id );
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;

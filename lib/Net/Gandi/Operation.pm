@@ -3,6 +3,8 @@ package Net::Gandi::Operation;
 # ABSTRACT: Operation interface
 
 use Moose;
+use namespace::autoclean;
+
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Carp;
@@ -31,8 +33,10 @@ sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc( 'operation.info', $self->id );
+    return $self->client->api_call( 'operation.info', $self->id );
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
+1;

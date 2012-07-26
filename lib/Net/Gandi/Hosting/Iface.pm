@@ -4,6 +4,8 @@ package Net::Gandi::Hosting::Iface;
 
 use Moose;
 use MooseX::Params::Validate;
+use namespace::autoclean;
+
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 use Net::Gandi::Error qw(_validated_params);
 
@@ -41,7 +43,7 @@ sub list {
     );
 
     $params ||= {};
-    return $self->client->call_rpc( "iface.list", $params );
+    return $self->client->api_call( "iface.list", $params );
 }
 
 =method count
@@ -62,7 +64,7 @@ sub count {
     );
 
     $params ||= {};
-    return $self->client->call_rpc('iface.count', $params);
+    return $self->client->api_call('iface.count', $params);
 }
 
 =method info
@@ -78,7 +80,7 @@ sub info {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc( 'iface.info', $self->id );
+    return $self->client->api_call( 'iface.info', $self->id );
 }
 
 =method create
@@ -98,7 +100,7 @@ sub create {
 
     _validated_params('iface_create', $params);
 
-    return $self->client->call_rpc( "iface.create", $params );
+    return $self->client->api_call( "iface.create", $params );
 }
 
 =method update
@@ -119,7 +121,7 @@ sub update {
     carp 'Required parameter id is not defined' if ( ! $self->id );
     _validated_params('iface_update', $params);
 
-    return $self->client->call_rpc( "iface.update", $self->id, $params );
+    return $self->client->api_call( "iface.update", $self->id, $params );
 }
 
 =method delete
@@ -132,7 +134,10 @@ sub delete {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc('iface.delete', $self->id);
+    return $self->client->api_call('iface.delete', $self->id);
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;

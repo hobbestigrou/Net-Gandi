@@ -4,6 +4,8 @@ package Net::Gandi::Hosting::Disk;
 
 use Moose;
 use MooseX::Params::Validate;
+use namespace::autoclean;
+
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 use Net::Gandi::Error qw(_validated_params);
 
@@ -41,7 +43,7 @@ sub list {
     );
 
     $params ||= {};
-    return $self->client->call_rpc( "disk.list", $params );
+    return $self->client->api_call( "disk.list", $params );
 }
 
 =method count
@@ -62,7 +64,7 @@ sub count {
     );
 
     $params ||= {};
-    return $self->client->call_rpc('disk.count', $params);
+    return $self->client->api_call('disk.count', $params);
 }
 
 =method info
@@ -79,7 +81,7 @@ sub info {
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->client->call_rpc( 'disk.info', $self->id );
+    return $self->client->api_call( 'disk.info', $self->id );
 }
 
 =method get_options
@@ -94,7 +96,7 @@ sub get_options {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc( 'disk.get_options', $self->id );
+    return $self->client->api_call( 'disk.get_options', $self->id );
 }
 
 =method create
@@ -114,7 +116,7 @@ sub create {
 
     _validated_params('disk_create', $params);
 
-    return $self->client->call_rpc( "disk.create", $params );
+    return $self->client->api_call( "disk.create", $params );
 }
 
 =method create_from
@@ -136,7 +138,7 @@ sub create_from {
 
     _validated_params('disk_create_from', $params);
 
-    return $self->client->call_rpc( "disk.create_from", $params, $src_disk_id );
+    return $self->client->api_call( "disk.create_from", $params, $src_disk_id );
 }
 
 =method update
@@ -155,7 +157,7 @@ sub update {
     );
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc('disk.update', $self->id, $params);
+    return $self->client->api_call('disk.update', $self->id, $params);
 }
 
 =head1 delete
@@ -171,7 +173,7 @@ sub delete {
     my ( $self ) = @_;
 
     carp 'Required parameter id is not defined' if ( ! $self->id );
-    return $self->client->call_rpc('disk.delete', $self->id);
+    return $self->client->api_call('disk.delete', $self->id);
 }
 
 =method attach
@@ -195,8 +197,8 @@ sub attach {
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
     return $params
-        ? $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id, $params)
-        : $self->client->call_rpc('vm.disk_attach', $vm_id, $self->id);
+        ? $self->client->api_call('vm.disk_attach', $vm_id, $self->id, $params)
+        : $self->client->api_call('vm.disk_attach', $vm_id, $self->id);
 }
 
 =method detach
@@ -216,7 +218,10 @@ sub detach {
     carp 'Required parameter id is not defined' if ( ! $vm_id );
     carp 'Required parameter id is not defined' if ( ! $self->id );
 
-    return $self->client->call_rpc('vm.disk_detach', $vm_id, $self->id);
+    return $self->client->api_call('vm.disk_detach', $vm_id, $self->id);
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;
