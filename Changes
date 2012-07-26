@@ -2,6 +2,9 @@ Revision history for Net::Gandi
 
 {{$NEXT}}
 
+    Optimise  add make_immutable and no Moose, and be more use namespace::autoclean
+    Rename method call_rpc to api_call, to have more generic name
+
 1.121851  2012-07-04 00:44:50 Europe/Paris
 
     Fix typo in the documentation, support part.
