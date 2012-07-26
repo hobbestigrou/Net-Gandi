@@ -3,6 +3,8 @@ package Net::Gandi::Operation;
 # ABSTRACT: Operation interface
 
 use Moose;
+use namespace::autoclean;
+
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Carp;
@@ -34,5 +36,7 @@ sub info {
     return $self->client->api_call( 'operation.info', $self->id );
 }
 
-1;
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
+1;

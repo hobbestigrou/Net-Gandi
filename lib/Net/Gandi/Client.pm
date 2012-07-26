@@ -4,6 +4,8 @@ package Net::Gandi::Client;
 
 use Moose;
 use MooseX::Types::URI qw(Uri);
+use namespace::autoclean;
+
 use Net::Gandi::Types qw(Apikey);
 
 use Module::Load;
@@ -114,5 +116,8 @@ sub _date_to_datetime {
 
     return $object;
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;

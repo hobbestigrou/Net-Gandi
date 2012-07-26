@@ -4,6 +4,8 @@ package Net::Gandi::Hosting::Iface;
 
 use Moose;
 use MooseX::Params::Validate;
+use namespace::autoclean;
+
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 use Net::Gandi::Error qw(_validated_params);
 
@@ -134,5 +136,8 @@ sub delete {
     carp 'Required parameter id is not defined' if ( ! $self->id );
     return $self->client->api_call('iface.delete', $self->id);
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;

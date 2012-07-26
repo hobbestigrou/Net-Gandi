@@ -4,6 +4,8 @@ package Net::Gandi::Hosting::Disk;
 
 use Moose;
 use MooseX::Params::Validate;
+use namespace::autoclean;
+
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 use Net::Gandi::Error qw(_validated_params);
 
@@ -218,5 +220,8 @@ sub detach {
 
     return $self->client->api_call('vm.disk_detach', $vm_id, $self->id);
 }
+
+no Moose;
+__PACKAGE__->meta->make_immutable;
 
 1;
