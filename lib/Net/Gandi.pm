@@ -11,6 +11,8 @@ use Net::Gandi::Types Client => { -as => 'Client_T' };
 use Net::Gandi::Hosting;
 use Net::Gandi::Operation;
 
+use 5.010;
+
 has client => (
     is       => 'rw',
     isa      => Client_T,
