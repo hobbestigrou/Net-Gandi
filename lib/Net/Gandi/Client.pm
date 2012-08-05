@@ -99,8 +99,9 @@ has 'date_to_datetime' => (
 sub _date_to_datetime {
     my ( $self, $object ) = @_;
 
-    load 'DateTime::Format::HTTP';
+    ref($object) or return $object;
 
+    load 'DateTime::Format::HTTP';
     my $array        = ref($object) ne 'ARRAY' ? [ $object ] : $object;
     my $dt           = 'DateTime::Format::HTTP';
     my @special_keys = ('ips', 'disks', 'ifaces');

@@ -3,13 +3,17 @@ package Net::Gandi;
 # ABSTRACT: A Perl interface for gandi api
 
 use Moose;
+use MooseX::Params::Validate;
 use namespace::autoclean;
 
 use Net::Gandi::Client;
 use Net::Gandi::Types Client => { -as => 'Client_T' };
 
 use Net::Gandi::Hosting;
+use Net::Gandi::Domain;
 use Net::Gandi::Operation;
+
+use 5.010;
 
 has client => (
     is       => 'rw',
@@ -46,6 +50,32 @@ sub hosting {
 
     my $hosting = Net::Gandi::Hosting->new( client => $self->client );
     $hosting;
+}
+
+=method domain
+
+  my $client  = Net::Gandi->new(apikey => 'api_key');
+  my $cdomain = $client->domain;
+
+Initialize the domain environnement, and return an object representing it.
+
+  input: id (Int) : optional, domain name
+  output: Net::Gandi::Domain
+
+=cut
+
+sub domain {
+    my ( $self, $id ) = validated_list(
+        \@_,
+        domain => { isa => 'Str', optional => 1 }
+    );
+
+    my %args  = ( client => $self->client );
+    $args{domain} = $id if $id;
+
+    my $domain = Net::Gandi::Domain->new(%args);
+
+    return $domain;
 }
 
 =method operation
