@@ -6,6 +6,7 @@ Revision history for Net::Gandi
     Add a new class Domain to manage domain name.
     Return if the object attribute is not a reference (Closes #8)
 
+1.122080  2012-07-26 21:24:54 Europe/Paris
     Optimise  add make_immutable and no Moose, and be more use namespace::autoclean
     Rename method call_rpc to api_call, to have more generic name
 
