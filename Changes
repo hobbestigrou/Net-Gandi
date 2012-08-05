@@ -2,6 +2,8 @@ Revision history for Net::Gandi
 
 {{$NEXT}}
 
+1.122180  2012-08-05 14:40:38 Europe/Paris
+
     Add statement to specified the minimal version of Perl
     Add a new class Domain to manage domain name.
     Return if the object attribute is not a reference (Closes #8)
