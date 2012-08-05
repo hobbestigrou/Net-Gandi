@@ -1,5 +1,7 @@
 package Net::Gandi::Domain;
 
+# ABSTRACT: Domain interface
+
 use Moose;
 use MooseX::Params::Validate;
 use namespace::autoclean;
