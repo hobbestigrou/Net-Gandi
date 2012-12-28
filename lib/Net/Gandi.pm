@@ -59,7 +59,7 @@ sub hosting {
 
 Initialize the domain environnement, and return an object representing it.
 
-  input: id (Int) : optional, domain name
+  input: id (Str) : optional, domain name
   output: Net::Gandi::Domain
 
 =cut
