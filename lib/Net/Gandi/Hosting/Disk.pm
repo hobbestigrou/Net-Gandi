@@ -7,7 +7,7 @@ use MooseX::Params::Validate;
 use namespace::autoclean;
 
 use Net::Gandi::Types Client => { -as => 'Client_T' };
-use Net::Gandi::Error qw(_validated_params);
+use Net::Gandi::Error;
 
 use Carp;
 

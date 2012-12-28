@@ -2,18 +2,18 @@ package Net::Gandi::Error;
 
 # ABSTRACT: Internal class to manage error.
 
-use strict;
-use warnings;
+use Moose ();
+use Moose::Exporter;
+
+Moose::Exporter->setup_import_methods(
+    as_is     => ['_validated_params'],
+    also      => 'Moose',
+);
 
 use Params::Check qw( check );
-use Carp;
 
 use Const::Fast;
 use Data::Dumper;
-
-require Exporter;
-our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(_validated_params);
 
 const my %TEMPLATE_VALIDATED => (
     vm_create => {
